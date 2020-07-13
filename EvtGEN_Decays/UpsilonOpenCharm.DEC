@@ -1,0 +1,56 @@
+Alias MyJ/psi J/psi
+ChargeConj MyJ/psi J/psi
+#
+Alias MyUpsilon Upsilon
+ChargeConj MyUpsilon MyUpsilon
+#
+Alias MyUpsilon(2S) Upsilon(2S)
+ChargeConj MyUpsilon(2S) MyUpsilon(2S)
+#
+Alias MyUpsilon(3S) Upsilon(3S)
+ChargeConj MyUpsilon(3S) MyUpsilon(3S)
+#
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+ChargeConj MyD0 Myanti-D0
+#
+Alias MyD+ D+
+Alias MyD- D-
+ChargeConj MyD+ MyD-
+#
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+#
+Decay  MyJ/psi
+1.00 mu+     mu-                                     PHOTOS  VLL; #[Reconstructed PDG2011]
+Enddecay
+#
+Decay  MyUpsilon
+1.00 mu+     mu-                                     PHOTOS  VLL; #[Reconstructed PDG2011]
+Enddecay
+#
+Decay  MyUpsilon(2S)
+1.00 mu+     mu-                                     PHOTOS  VLL; #[Reconstructed PDG2011]
+Enddecay
+#
+Decay  MyUpsilon(3S)
+1.00 mu+     mu-                                     PHOTOS  VLL; #[Reconstructed PDG2011]
+Enddecay
+#
+Decay MyD0
+1.00 K-      pi+                                     PHSP; #[Reconstructed PDG2011]
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyD+
+1.00 K-      pi+     pi+                             D_DALITZ; #[Reconstructed PDG2011]
+Enddecay
+CDecay MyD-
+#
+Decay MyD_s+
+1.00 K+      K-      pi+                             PHSP; #[Reconstructed PDG2011]
+Enddecay
+CDecay MyD_s-
+#
+End
