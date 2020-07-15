@@ -33,12 +33,12 @@ process.maxEvents = cms.untracked.PSet(
 
 process.MessageLogger.cerr.FwkReport.reportEvery = 10000
 
-#mylist = FileUtils.loadListFromFile('files_path.txt') 
+mylist = FileUtils.loadListFromFile(options.inputFiles) 
 
 process.source = cms.Source(
     "PoolSource",
-    fileNames  = cms.untracked.vstring(options.inputFiles),
-    #fileNames  = cms.untracked.vstring(*mylist),
+    #fileNames  = cms.untracked.vstring(options.inputFiles),
+    fileNames  = cms.untracked.vstring(*mylist),
     duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 )
 

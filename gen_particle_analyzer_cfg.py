@@ -9,6 +9,11 @@ options.register('outFile',
                     VarParsing.VarParsing.multiplicity.singleton, 
                     VarParsing.VarParsing.varType.string, 
                     'name of the out file')
+options.register('inFile', 
+                    '', 
+                    VarParsing.VarParsing.multiplicity.singleton, 
+                    VarParsing.VarParsing.varType.string, 
+                    'name of the in file')
 
 options.parseArguments()
 
@@ -27,12 +32,12 @@ process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
-# mylist = FileUtils.loadListFromFile('files_pathDzero.txt') 
+mylist = FileUtils.loadListFromFile(options.inFile)
 
 process.source = cms.Source(
     "PoolSource",
     #fileNames  = cms.untracked.vstring(options.inputFiles),
-    fileNames  = cms.untracked.vstring(options.inputFiles),
+    fileNames  = cms.untracked.vstring(*mylist),
     duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 )
 
