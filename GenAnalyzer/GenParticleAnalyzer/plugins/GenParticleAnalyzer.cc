@@ -80,6 +80,7 @@ class GenParticleAnalyzer : public edm::one::EDAnalyzer<edm::one::SharedResource
       TFile *file;
 
       // Store for genParticles the important variables.
+      
       UInt_t nGenPart;
       std::vector<Int_t> GenPart_pdgId;
       std::vector<Float_t> GenPart_pt;
@@ -109,6 +110,8 @@ class GenParticleAnalyzer : public edm::one::EDAnalyzer<edm::one::SharedResource
 //
 // constants, enums and typedefs
 //
+
+const unsigned nReserve_GenPart = 1024;
 
 //
 // static data member definitions
@@ -170,23 +173,27 @@ void GenParticleAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetu
       if ( (std::abs(genp->pdgId()) == 5) || (std::abs(genp->pdgId()) == 4) || (std::abs(genp->pdgId()) == 421) || 
             (std::abs(genp->pdgId()) == 413) || (std::abs(genp->pdgId()) == 411) || (std::abs(genp->pdgId()) == 13) ||
             (std::abs(genp->pdgId()) == 443) || (std::abs(genp->pdgId()) == 553) ) {
-         
-         const reco::Candidate *mom = genp->mother();
-         
-         GenPart_pdgId.push_back(genp->pdgId());
-         GenPart_pt.push_back(genp->pt());
-         GenPart_eta.push_back(genp->eta());
-         GenPart_phi.push_back(genp->phi());
-         GenPart_mass.push_back(genp->mass());
-         GenPart_charge.push_back(genp->charge());
-         GenPart_vx.push_back(genp->vx());
-         GenPart_vy.push_back(genp->vy());
-         GenPart_vz.push_back(genp->vz());
 
-         GenPart_mpdgId.push_back(mom->pdgId());
-         GenPart_mvx.push_back(mom->vx());
-         GenPart_mvy.push_back(mom->vy());
-         GenPart_mvz.push_back(mom->vz());
+         const reco::Candidate *mom = genp->mother();
+         if (GenPart_pdgId.size() < nReserve_GenPart){
+            GenPart_pdgId.push_back(genp->pdgId());
+            GenPart_pt.push_back(genp->pt());
+            GenPart_eta.push_back(genp->eta());
+            GenPart_phi.push_back(genp->phi());
+            GenPart_mass.push_back(genp->mass());
+            GenPart_charge.push_back(genp->charge());
+            GenPart_vx.push_back(genp->vx());
+            GenPart_vy.push_back(genp->vy());
+            GenPart_vz.push_back(genp->vz());
+
+            GenPart_mpdgId.push_back(mom->pdgId());
+            GenPart_mvx.push_back(mom->vx());
+            GenPart_mvy.push_back(mom->vy());
+            GenPart_mvz.push_back(mom->vz());
+         }
+         else{
+            std::cout << "N of GenPart is greater than your reserve" << std::endl;
+         }
       }
 
    }
@@ -221,12 +228,27 @@ void GenParticleAnalyzer::initialize() {
 // ------------ method called once each job just before starting event loop  ------------
 void GenParticleAnalyzer::beginJob()
 {
+   GenPart_pdgId.reserve(nReserve_GenPart);
+   GenPart_pt.reserve(nReserve_GenPart);
+   GenPart_eta.reserve(nReserve_GenPart);
+   GenPart_phi.reserve(nReserve_GenPart);
+   GenPart_mass.reserve(nReserve_GenPart);
+   GenPart_charge.reserve(nReserve_GenPart);
+   GenPart_vx.reserve(nReserve_GenPart);
+   GenPart_vy.reserve(nReserve_GenPart);
+   GenPart_vz.reserve(nReserve_GenPart);
+
+   GenPart_mpdgId.reserve(nReserve_GenPart);
+   GenPart_mvx.reserve(nReserve_GenPart);
+   GenPart_mvy.reserve(nReserve_GenPart);
+   GenPart_mvz.reserve(nReserve_GenPart);
+
    Events->Branch("nGenPart", &nGenPart, "nGenPart/I");
    Events->Branch("GenPart_pt", GenPart_pt.data(), "GenPart_pt[nGenPart]/F");
    Events->Branch("GenPart_eta", GenPart_eta.data(), "GenPart_eta[nGenPart]/F");
    Events->Branch("GenPart_phi", GenPart_phi.data(), "GenPart_phi[nGenPart]/F");
    Events->Branch("GenPart_mass", GenPart_mass.data(), "GenPart_mass[nGenPart]/F");
-   Events->Branch("GenPart_charge", GenPart_charge.data(), "GenPart_charge[nGenPart]/I");
+   Events->Branch("GenPart_charge", GenPart_charge.data(), "GenPart_charge[nGenPart]/F");
    Events->Branch("GenPart_pdgId", GenPart_pdgId.data(), "GenPart_pdgId[nGenPart]/I");
    Events->Branch("GenPart_vx", GenPart_vx.data(), "GenPart_vx[nGenPart]/F");
    Events->Branch("GenPart_vy", GenPart_vy.data(), "GenPart_vy[nGenPart]/F");
