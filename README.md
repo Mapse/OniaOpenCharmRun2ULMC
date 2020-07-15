@@ -59,4 +59,4 @@ cmsDriver.py step7 --filein file:MiniAOD.root --fileout file:NanoAOD.root --mc -
 ```
 (To create private flat ntuple, please use `--eventcontent NANOAODSIM --datatier NANOAODSIM --customise_commands="process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)))"`)
 
-more informations: https://twiki.cern.ch/twiki/bin/view/CMS/PdmVLegacy2017Analysis# OniaOpenCharmRun2ULMC
+more informations: https://twiki.cern.ch/twiki/bin/view/CMS/PdmVLegacy2017Analysis#
