@@ -102,18 +102,17 @@ upsilondaufilter = cms.EDFilter(
     MinEta          = cms.untracked.vdouble(-2.5, -2.5),
 )
 
-""" dzerodaufilter = cms.EDFilter(
+# Charge conjugation included in PythiaDauVFilter.
+dzerodaufilter = cms.EDFilter(
     "PythiaDauVFilter",
     verbose         = cms.untracked.int32(1),
     NumberDaughters = cms.untracked.int32(2),
     #MotherID        = cms.untracked.int32(541),
     ParticleID      = cms.untracked.int32(421),
     DaughterIDs     = cms.untracked.vint32(-321, 211),
-    MinPt           = cms.untracked.vdouble(0.25, 0.25),
-    MinP            = cms.untracked.vdouble(3.2, 3.2),
-    MaxP            = cms.untracked.vdouble(100.0, 100.0),
-    MinEta          = cms.untracked.vdouble(2.0, 2.0),
-    MaxEta          = cms.untracked.vdouble(5.0, 5.0)
+    MinPt           = cms.untracked.vdouble(0.5, 0.5),
+    MaxEta          = cms.untracked.vdouble(2.5, 2.5),
+    MinEta          = cms.untracked.vdouble(-2.5, -2.5),
 )
- """
-ProductionFilterSequence = cms.Sequence(generator*upsilonfilter*dzerofilter*upsilondaufilter)
+
+ProductionFilterSequence = cms.Sequence(generator*upsilonfilter*dzerofilter*upsilondaufilter*dzerodaufilter)

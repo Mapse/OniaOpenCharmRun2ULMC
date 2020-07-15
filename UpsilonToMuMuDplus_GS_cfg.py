@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: Configuration/GenProduction/python/UpsilonToMuMuDplus_7TeV_cfi.py --fileout file:UpsilonToMuMuDplus_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDplus_GS_cfg.py -n 500000 --no_exec
+# with command line options: Configuration/GenProduction/python/UpsilonToMuMuDplus_13TeV_cfi.py --fileout file:UpsilonToMuMuDplus_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDplus_GS_cfg.py -n 500000 --no_exec
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Eras.Era_Run2_2017_cff import Run2_2017
@@ -38,7 +38,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('Configuration/GenProduction/python/UpsilonToMuMuDplus_7TeV_cfi.py nevts:500000'),
+    annotation = cms.untracked.string('Configuration/GenProduction/python/UpsilonToMuMuDplus_13TeV_cfi.py nevts:500000'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -71,12 +71,10 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '106X_mc2017_realistic_v7', '')
 
 process.upsilondaufilter = cms.EDFilter("PythiaDauVFilter",
     DaughterIDs = cms.untracked.vint32(13, -13),
-    MaxEta = cms.untracked.vdouble(4.5, 4.5),
-    MaxP = cms.untracked.vdouble(400.0, 400.0),
-    MaxPt = cms.untracked.double(25.0),
-    MinEta = cms.untracked.vdouble(2.0, 2.0),
-    MinP = cms.untracked.vdouble(10.0, 10.0),
-    MinPt = cms.untracked.vdouble(1.0, 1.0),
+    MaxEta = cms.untracked.vdouble(2.5, 2.5),
+    MinEta = cms.untracked.vdouble(-2.5, -2.5),
+    MinP = cms.untracked.vdouble(2.7, 2.7),
+    MinPt = cms.untracked.vdouble(0.5, 0.5),
     NumberDaughters = cms.untracked.int32(2),
     ParticleID = cms.untracked.int32(553),
     verbose = cms.untracked.int32(1)
@@ -84,23 +82,20 @@ process.upsilondaufilter = cms.EDFilter("PythiaDauVFilter",
 
 
 process.dplusdaufilter = cms.EDFilter("PythiaDauVFilter",
-    DaughterIDs = cms.untracked.vint32(-321, 211, 211),
-    MaxEta = cms.untracked.vdouble(5.0, 5.0, 2.0),
-    MaxP = cms.untracked.vdouble(100.0, 100.0, 100.0),
-    MinEta = cms.untracked.vdouble(2.0, 2.0, 2.0),
-    MinP = cms.untracked.vdouble(3.2, 3.2, 3.2),
-    MinPt = cms.untracked.vdouble(0.25, 0.25, 0.25),
-    NumberDaughters = cms.untracked.int32(3),
+    DaughterIDs = cms.untracked.vint32(-321, 211),
+    MaxEta = cms.untracked.vdouble(2.5, 2.5),
+    MinEta = cms.untracked.vdouble(-2.5, -2.5),
+    MinPt = cms.untracked.vdouble(0.5, 0.5),
+    NumberDaughters = cms.untracked.int32(2),
     ParticleID = cms.untracked.int32(411),
     verbose = cms.untracked.int32(1)
 )
 
 
 process.dplusfilter = cms.EDFilter("MCSingleParticleFilter",
-    MaxEta = cms.untracked.vdouble(4.5, 4.5),
-    MaxPt = cms.untracked.vdouble(20.0, 20.0),
-    MinEta = cms.untracked.vdouble(2.0, 2.0),
-    MinPt = cms.untracked.vdouble(1.0, 1.0),
+    MaxEta = cms.untracked.vdouble(1000.0, 1000.0),
+    MinEta = cms.untracked.vdouble(-1000.0, -1000.0),
+    MinPt = cms.untracked.vdouble(0.0, 0.0),
     ParticleID = cms.untracked.vint32(411, -411)
 )
 
@@ -190,7 +185,7 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
             'ParticleDecays:allowPhotonRadiation = on'
         )
     ),
-    comEnergy = cms.double(7000.0),
+    comEnergy = cms.double(13000.0),
     maxEventsToPrint = cms.untracked.int32(0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
     pythiaPylistVerbosity = cms.untracked.int32(0)
@@ -198,9 +193,9 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
 
 
 process.upsilonfilter = cms.EDFilter("PythiaFilter",
-    MaxEta = cms.untracked.double(4.5),
-    MaxPt = cms.untracked.double(15.0),
-    MinEta = cms.untracked.double(2.0),
+    MaxEta = cms.untracked.double(1000.0),
+    MinEta = cms.untracked.double(-1000.0),
+    MinPt = cms.untracked.double(0.0),
     ParticleID = cms.untracked.int32(553)
 )
 
