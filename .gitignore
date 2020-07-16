@@ -1,5 +1,6 @@
 # Specifics:
 crab_projects/
+*.swp
 
 #Image files:
 # JPEG

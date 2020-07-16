@@ -23,12 +23,12 @@ scram b
 * GEN,SIM step:
 Dzero:
 ```
-cmsDriver.py Configuration/GenProduction/python/UpsilonToMuMuDzero_13TeV_cfi.py --fileout file:UpsilonToMuMuDzero_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDzero_GS_cfg.py -n 5000  --no_exec
+cmsDriver.py Configuration/GenProduction/python/UpsilonToMuMuDzero_13TeV_cfi.py --fileout file:UpsilonToMuMuDzero_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDzero13TeV_GS_cfg.py -n 5000  --no_exec
 ```
 
 Dplus:
 ```
-cmsDriver.py Configuration/GenProduction/python/UpsilonToMuMuDplus_13TeV_cfi.py --fileout file:UpsilonToMuMuDplus_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDplus_GS_cfg.py -n 5000  --no_exec
+cmsDriver.py Configuration/GenProduction/python/UpsilonToMuMuDplus_13TeV_cfi.py --fileout file:UpsilonToMuMuDplus_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDplus13TeV_GS_cfg.py -n 5000  --no_exec
 ```
 
 #### To update:
