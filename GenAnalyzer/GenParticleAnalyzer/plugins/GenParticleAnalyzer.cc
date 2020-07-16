@@ -175,7 +175,7 @@ void GenParticleAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetu
             (std::abs(genp->pdgId()) == 553) ) {
 
          const reco::Candidate *mom = genp->mother();
-         const reco::Candidate *child = genp->child();
+
          if (GenPart_pdgId.size() < nReserve_GenPart){
             GenPart_pdgId.push_back(genp->pdgId());
             GenPart_pt.push_back(genp->pt());
