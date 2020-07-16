@@ -158,10 +158,10 @@ void GenParticleAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetu
 
    initialize();
 
+   bool PVfilled = false;
    for (auto genp = genParticles->begin(); genp < genParticles->end(); ++genp) {
       
       // Store PV position
-      bool PVfilled = false;
       if (!PVfilled && genp->vz() != 0){
         GenPart_PVx = genp->vx();
         GenPart_PVy = genp->vy();
@@ -171,10 +171,11 @@ void GenParticleAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetu
 
       // Get the b and c quarks, D0, D+, D*, Upsilon, Jpsi and muons
       if ( (std::abs(genp->pdgId()) == 5) || (std::abs(genp->pdgId()) == 4) || (std::abs(genp->pdgId()) == 421) || 
-            (std::abs(genp->pdgId()) == 413) || (std::abs(genp->pdgId()) == 411) || (std::abs(genp->pdgId()) == 13) ||
-            (std::abs(genp->pdgId()) == 443) || (std::abs(genp->pdgId()) == 553) ) {
+            (std::abs(genp->pdgId()) == 413) || (std::abs(genp->pdgId()) == 411) ||(std::abs(genp->pdgId()) == 443) || 
+            (std::abs(genp->pdgId()) == 553) ) {
 
          const reco::Candidate *mom = genp->mother();
+         const reco::Candidate *child = genp->child();
          if (GenPart_pdgId.size() < nReserve_GenPart){
             GenPart_pdgId.push_back(genp->pdgId());
             GenPart_pt.push_back(genp->pt());
