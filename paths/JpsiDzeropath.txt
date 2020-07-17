@@ -1,0 +1,11 @@
+
+
+file:/eos/user/m/mabarros/CRAB_PrivateMC/JPsiDzerom_CRAB3_MC_GS_1/200716_080741/0000/JpsiToMuMuwithDZero_13TeV_GS_10.root 
+file:/eos/user/m/mabarros/CRAB_PrivateMC/JPsiDzerom_CRAB3_MC_GS_1/200716_080741/0000/JpsiToMuMuwithDZero_13TeV_GS_4.root
+file:/eos/user/m/mabarros/CRAB_PrivateMC/JPsiDzerom_CRAB3_MC_GS_1/200716_080741/0000/JpsiToMuMuwithDZero_13TeV_GS_7.root
+file:/eos/user/m/mabarros/CRAB_PrivateMC/JPsiDzerom_CRAB3_MC_GS_1/200716_080741/0000/JpsiToMuMuwithDZero_13TeV_GS_1.root
+file:/eos/user/m/mabarros/CRAB_PrivateMC/JPsiDzerom_CRAB3_MC_GS_1/200716_080741/0000/JpsiToMuMuwithDZero_13TeV_GS_2.root
+file:/eos/user/m/mabarros/CRAB_PrivateMC/JPsiDzerom_CRAB3_MC_GS_1/200716_080741/0000/JpsiToMuMuwithDZero_13TeV_GS_5.root
+file:/eos/user/m/mabarros/CRAB_PrivateMC/JPsiDzerom_CRAB3_MC_GS_1/200716_080741/0000/JpsiToMuMuwithDZero_13TeV_GS_6.root
+
+
