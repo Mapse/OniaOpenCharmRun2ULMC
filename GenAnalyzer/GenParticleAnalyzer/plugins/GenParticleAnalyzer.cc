@@ -172,7 +172,7 @@ void GenParticleAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetu
       // Get the b and c quarks, D0, D+, D*, Upsilon, Jpsi and muons
       if ( (std::abs(genp->pdgId()) == 5) || (std::abs(genp->pdgId()) == 4) || (std::abs(genp->pdgId()) == 421) || 
             (std::abs(genp->pdgId()) == 413) || (std::abs(genp->pdgId()) == 411) ||(std::abs(genp->pdgId()) == 443) || 
-            (std::abs(genp->pdgId()) == 553) ) {
+            (std::abs(genp->pdgId()) == 553) || (std::abs(genp->pdgId()) == 13)) {
 
          const reco::Candidate *mom = genp->mother();
 

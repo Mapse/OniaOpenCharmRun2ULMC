@@ -4,9 +4,16 @@
 # Source: /local/reps/CMSSW/CMSSW/Configuration/PyReleaseValidation/python/ConfigBuilder.py,v 
 # with command line options: Configuration/GenProduction/python/EightTeV/Hadronizer_MgmMatchTuneZ2star_8TeV_madgraph_tauola_cff.py --step GEN --beamspot Realistic8TeVCollision --conditions START52_V9::All --pileup NoPileUp --datamix NODATAMIXER --eventcontent RAWSIM --datatier GEN -n -1 --python_filename=Temp_Hadronizer_5498_1.py --filein root://eoscms//eos/cms//store/lhe/5498/DY1JetsToLL_M-50_8TeV-madgraph_10001.lhe --no_output --no_exec
 import FWCore.ParameterSet.Config as cms
-from FWCore.ParameterSet.VarParsing import VarParsing
+import FWCore.ParameterSet.VarParsing as VarParsing
 import FWCore.Utilities.FileUtils as FileUtils
-options = VarParsing ('analysis')
+options = VarParsing.VarParsing('analysis')
+
+options.register('inFile', 
+                    '', 
+                    VarParsing.VarParsing.multiplicity.singleton, 
+                    VarParsing.VarParsing.varType.string, 
+                    'name of the in file')
+
 options.parseArguments()
 
 process = cms.Process('ANA')
@@ -33,7 +40,7 @@ process.maxEvents = cms.untracked.PSet(
 
 process.MessageLogger.cerr.FwkReport.reportEvery = 10000
 
-mylist = FileUtils.loadListFromFile(options.inputFiles) 
+mylist = FileUtils.loadListFromFile(options.inFile) 
 
 process.source = cms.Source(
     "PoolSource",
