@@ -109,10 +109,10 @@ dplusdaufilter = cms.EDFilter(
     NumberDaughters = cms.untracked.int32(2),
     #MotherID        = cms.untracked.int32(541),
     ParticleID      = cms.untracked.int32(411),
-    DaughterIDs     = cms.untracked.vint32(-321, 211),
-    MinPt           = cms.untracked.vdouble(0.5, 0.5),
-    MaxEta          = cms.untracked.vdouble(2.5, 2.5),
-    MinEta          = cms.untracked.vdouble(-2.5, -2.5),
+    DaughterIDs     = cms.untracked.vint32(-321, 211, 211),
+    MinPt           = cms.untracked.vdouble(0.5, 0.5, 0.5),
+    MaxEta          = cms.untracked.vdouble(2.5, 2.5, 2.5),
+    MinEta          = cms.untracked.vdouble(-2.5, -2.5, -2.5),
 )
 
 ProductionFilterSequence = cms.Sequence(generator*upsilonfilter*dplusfilter*upsilondaufilter*dplusdaufilter)
