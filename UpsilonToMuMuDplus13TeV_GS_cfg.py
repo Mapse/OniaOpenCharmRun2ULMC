@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: Configuration/GenProduction/python/UpsilonToMuMuDplus_13TeV_cfi.py --fileout file:UpsilonToMuMuDplus_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDplus_GS_cfg.py -n 500000 --no_exec
+# with command line options: Configuration/GenProduction/python/UpsilonToMuMuDplus_13TeV_cfi.py --fileout file:UpsilonToMuMuDplus_13TeV_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDplus13TeV_GS_cfg.py -n 100000 --no_exec
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Eras.Era_Run2_2017_cff import Run2_2017
@@ -26,7 +26,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(500000)
+    input = cms.untracked.int32(100000)
 )
 
 # Input source
@@ -38,7 +38,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('Configuration/GenProduction/python/UpsilonToMuMuDplus_13TeV_cfi.py nevts:500000'),
+    annotation = cms.untracked.string('Configuration/GenProduction/python/UpsilonToMuMuDplus_13TeV_cfi.py nevts:100000'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -56,7 +56,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
         filterName = cms.untracked.string('')
     ),
     eventAutoFlushCompressedSize = cms.untracked.int32(20971520),
-    fileName = cms.untracked.string('file:UpsilonToMuMuDplus_GS.root'),
+    fileName = cms.untracked.string('file:UpsilonToMuMuDplus_13TeV_GS.root'),
     outputCommands = process.RAWSIMEventContent.outputCommands,
     splitLevel = cms.untracked.int32(0)
 )
@@ -82,10 +82,10 @@ process.upsilondaufilter = cms.EDFilter("PythiaDauVFilter",
 
 
 process.dplusdaufilter = cms.EDFilter("PythiaDauVFilter",
-    DaughterIDs = cms.untracked.vint32(-321, 211),
-    MaxEta = cms.untracked.vdouble(2.5, 2.5),
-    MinEta = cms.untracked.vdouble(-2.5, -2.5),
-    MinPt = cms.untracked.vdouble(0.5, 0.5),
+    DaughterIDs = cms.untracked.vint32(-321, 211, 211),
+    MaxEta = cms.untracked.vdouble(2.5, 2.5, 2.5),
+    MinEta = cms.untracked.vdouble(-2.5, -2.5, -2.5),
+    MinPt = cms.untracked.vdouble(0.5, 0.5, 0.5),
     NumberDaughters = cms.untracked.int32(2),
     ParticleID = cms.untracked.int32(411),
     verbose = cms.untracked.int32(1)
