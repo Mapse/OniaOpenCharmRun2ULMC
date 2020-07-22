@@ -55,9 +55,10 @@ End
             'PhaseSpace:pTHatMin = 4.5',
             'PhaseSpace:pTHatMinSecond = 4.5',
             'PhaseSpace:pTHatMinDiverge = 0.5',
-            #'443:onMode = off',
+            '553:onMode = off',
+            '411:onMode = off',
+            '413:onMode = off',
             #'421:onMode = off',
-            #'411:onMode = off',
             #'431:onMode = off',
             #'4122:onMode = off'
             ),
@@ -106,7 +107,7 @@ upsilondaufilter = cms.EDFilter(
 dplusdaufilter = cms.EDFilter(
     "PythiaDauVFilter",
     verbose         = cms.untracked.int32(1),
-    NumberDaughters = cms.untracked.int32(2),
+    NumberDaughters = cms.untracked.int32(3),
     #MotherID        = cms.untracked.int32(541),
     ParticleID      = cms.untracked.int32(411),
     DaughterIDs     = cms.untracked.vint32(-321, 211, 211),

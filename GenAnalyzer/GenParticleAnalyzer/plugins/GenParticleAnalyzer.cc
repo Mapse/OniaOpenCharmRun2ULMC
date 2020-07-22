@@ -91,6 +91,7 @@ class GenParticleAnalyzer : public edm::one::EDAnalyzer<edm::one::SharedResource
       std::vector<Float_t> GenPart_vx;
       std::vector<Float_t> GenPart_vy;
       std::vector<Float_t> GenPart_vz;
+      std::vector<Float_t> GenPart_ndaughters;
 
       // Store Mother vtx and pdgId
       std::vector<Int_t> GenPart_mpdgId;
@@ -169,12 +170,30 @@ void GenParticleAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetu
         PVfilled = true;
       }
 
-      // Get the b and c quarks, D0, D+, D*, Upsilon, Jpsi and muons
+      // Get the b and c quarks, D0, D+, D*, Upsilon, Jpsi, Kaons, pions and muons
       if ( (std::abs(genp->pdgId()) == 5) || (std::abs(genp->pdgId()) == 4) || (std::abs(genp->pdgId()) == 421) || 
-            (std::abs(genp->pdgId()) == 413) || (std::abs(genp->pdgId()) == 411) ||(std::abs(genp->pdgId()) == 443) || 
-            (std::abs(genp->pdgId()) == 553) || (std::abs(genp->pdgId()) == 13)) {
+            (std::abs(genp->pdgId()) == 413) || (std::abs(genp->pdgId()) == 411) || (std::abs(genp->pdgId()) == 443) || 
+            (std::abs(genp->pdgId()) == 553) || (std::abs(genp->pdgId()) == 13) || (std::abs(genp->pdgId()) == 211) || 
+            (std::abs(genp->pdgId()) == 321)) {
 
          const reco::Candidate *mom = genp->mother();
+
+         /* bool oniaMom = (std::abs(mom->pdgId()) == 553) || (std::abs(mom->pdgId()) == 443);
+         bool Dmom = (std::abs(mom->pdgId()) == 411) || (std::abs(mom->pdgId()) == 413) || (std::abs(mom->pdgId()) == 421) || (std::abs(mom->pdgId()) == 443);
+         bool track = (std::abs(genp->pdgId()) == 211) || (std::abs(genp->pdgId()) == 321); */
+
+         /* if ((std::abs(genp->pdgId()) == 13) && !oniaMom) continue;
+         if (track && !Dmom) continue;
+ */
+         /* if (std::abs(genp->pdgId()) == 421) {
+            std::cout << "Found D0. " << "vtx: x=" << genp->vx() << " y=" << genp->vy() << " z=" << genp->vz() << std::endl;
+            std::cout << "n daughter: " << genp->numberOfDaughters() << std::endl;
+            size_t ndau = genp->numberOfDaughters();
+            for (size_t i = 0; i < ndau; ++i) {
+               const reco::Candidate *daughter = genp->daughter(i);
+               std::cout << (daughter->pdgId()) << std::endl;
+            }            
+         } */
 
          if (GenPart_pdgId.size() < nReserve_GenPart){
             GenPart_pdgId.push_back(genp->pdgId());
@@ -186,6 +205,7 @@ void GenParticleAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetu
             GenPart_vx.push_back(genp->vx());
             GenPart_vy.push_back(genp->vy());
             GenPart_vz.push_back(genp->vz());
+            GenPart_ndaughters.push_back(genp->numberOfDaughters());
 
             GenPart_mpdgId.push_back(mom->pdgId());
             GenPart_mvx.push_back(mom->vx());
@@ -218,6 +238,7 @@ void GenParticleAnalyzer::initialize() {
    GenPart_vx.clear();
    GenPart_vy.clear();
    GenPart_vz.clear();
+   GenPart_ndaughters.clear();
 
    GenPart_mpdgId.clear();
    GenPart_mvx.clear();
@@ -238,6 +259,7 @@ void GenParticleAnalyzer::beginJob()
    GenPart_vx.reserve(nReserve_GenPart);
    GenPart_vy.reserve(nReserve_GenPart);
    GenPart_vz.reserve(nReserve_GenPart);
+   GenPart_ndaughters.reserve(nReserve_GenPart);
 
    GenPart_mpdgId.reserve(nReserve_GenPart);
    GenPart_mvx.reserve(nReserve_GenPart);
@@ -254,6 +276,7 @@ void GenParticleAnalyzer::beginJob()
    Events->Branch("GenPart_vx", GenPart_vx.data(), "GenPart_vx[nGenPart]/F");
    Events->Branch("GenPart_vy", GenPart_vy.data(), "GenPart_vy[nGenPart]/F");
    Events->Branch("GenPart_vz", GenPart_vz.data(), "GenPart_vz[nGenPart]/F");
+   Events->Branch("GenPart_ndaughters", GenPart_ndaughters.data(), "GenPart_ndaughters[nGenPart]/I");
 
    Events->Branch("GenPart_mvx", GenPart_mvx.data(), "GenPart_mvx[nGenPart]/F");
    Events->Branch("GenPart_mvy", GenPart_mvy.data(), "GenPart_mvy[nGenPart]/F");

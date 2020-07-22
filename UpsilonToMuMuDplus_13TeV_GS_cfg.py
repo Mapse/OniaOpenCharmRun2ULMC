@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: Configuration/GenProduction/python/UpsilonToMuMuDplus_13TeV_cfi.py --fileout file:UpsilonToMuMuDplus_13TeV_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDplus13TeV_GS_cfg.py -n 100000 --no_exec
+# with command line options: Configuration/GenProduction/python/UpsilonToMuMuDplus_13TeV_cfi.py --fileout file:UpsilonToMuMuDplus_13TeV_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDplus_13TeV_GS_cfg.py -n 100000 --no_exec
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Eras.Era_Run2_2017_cff import Run2_2017
@@ -86,7 +86,7 @@ process.dplusdaufilter = cms.EDFilter("PythiaDauVFilter",
     MaxEta = cms.untracked.vdouble(2.5, 2.5, 2.5),
     MinEta = cms.untracked.vdouble(-2.5, -2.5, -2.5),
     MinPt = cms.untracked.vdouble(0.5, 0.5, 0.5),
-    NumberDaughters = cms.untracked.int32(2),
+    NumberDaughters = cms.untracked.int32(3),
     ParticleID = cms.untracked.int32(411),
     verbose = cms.untracked.int32(1)
 )
@@ -131,6 +131,9 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
             'PhaseSpace:pTHatMin = 4.5', 
             'PhaseSpace:pTHatMinSecond = 4.5', 
             'PhaseSpace:pTHatMinDiverge = 0.5', 
+            '553:onMode = off', 
+            '411:onMode = off', 
+            '413:onMode = off', 
             '300553:new = 300553 -300553 1 0 0 1.0579400e+01 2.0500001e-02 10.5584 10.6819 0.0000000e+00', 
             '100313:new = 100313 -100313 1 0 0 1.4140000e+00 2.3199996e-01 0.254 2.574 0.0000000e+00', 
             '100323:new = 100323 -100323 1 1 0 1.4140000e+00 2.3199996e-01 0.254 2.574 0.0000000e+00', 

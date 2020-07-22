@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: Configuration/GenProduction/python/UpsilonToMuMuDzero_13TeV_cfi.py --fileout file:UpsilonToMuMuDzero_13TeV_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDzero13TeV_GS_cfg.py -n 100000 --no_exec
+# with command line options: Configuration/GenProduction/python/UpsilonToMuMuDzero_13TeV_cfi.py --fileout file:UpsilonToMuMuDzero_13TeV_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDzero_13TeV_GS_cfg.py -n 100000 --no_exec
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Eras.Era_Run2_2017_cff import Run2_2017
@@ -104,7 +104,7 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
             ),
             operates_on_particles = cms.vint32(553, 421, -421),
             particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014.pdl'),
-            user_decay_embedded = cms.vstring('\nAlias      MyD0        D0\nAlias      Myanti-D0   anti-D0\nChargeConj MyD0 Myanti-D0\n\nAlias MyUpsilon Upsilon\n\nDecay MyUpsilon\n  1.000        mu+     mu-       PHOTOS   VLL;\nEnddecay\n\nDecay MyD0\n  1.000        K-      pi+              PHSP;\nEnddecay\nCDecay Myanti-D0\n\nEnd\n')
+            user_decay_embedded = cms.vstring('\nAlias      MyD0        D0\nAlias      Myanti-D0   anti-D0\nChargeConj MyD0 Myanti-D0\n\nAlias MyUpsilon Upsilon\nAlias MyUpsilon(2S) Upsilon(2S)\nAlias MyUpsilon(3S) Upsilon(3S)\n\nDecay MyUpsilon\n  1.000        mu+     mu-       PHOTOS   VLL;\nEnddecay\n\nDecay MyUpsilon(2S)\n  1.000        mu+     mu-       PHOTOS   VLL;\nEnddecay\n\nDecay MyUpsilon(3S)\n  1.000        mu+     mu-       PHOTOS   VLL;\nEnddecay\n\nDecay MyD0\n  1.000        K-      pi+              PHSP;\nEnddecay\nCDecay Myanti-D0\n\nEnd\n')
         ),
         parameterSets = cms.vstring('EvtGen130')
     ),
@@ -123,6 +123,9 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
             'PhaseSpace:pTHatMin = 4.5', 
             'PhaseSpace:pTHatMinSecond = 4.5', 
             'PhaseSpace:pTHatMinDiverge = 0.5', 
+            '553:onMode = off', 
+            '421:onMode = off', 
+            '413:onMode = off', 
             '300553:new = 300553 -300553 1 0 0 1.0579400e+01 2.0500001e-02 10.5584 10.6819 0.0000000e+00', 
             '100313:new = 100313 -100313 1 0 0 1.4140000e+00 2.3199996e-01 0.254 2.574 0.0000000e+00', 
             '100323:new = 100323 -100323 1 1 0 1.4140000e+00 2.3199996e-01 0.254 2.574 0.0000000e+00', 

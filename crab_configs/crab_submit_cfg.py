@@ -16,8 +16,11 @@ parser.add_argument('-c', '--config', help='config to be used in submition', typ
 
 args = parser.parse_args()
 
+if (args.config.endswith(".py")):
+    cfg = args.config[:-3]
+
 # import module with crab configuration
-mdl = importlib.import_module(args.config)
+mdl = importlib.import_module(cfg)
 # is there an __all__?  if so respect it
 if "__all__" in mdl.__dict__:
     names = mdl.__dict__["__all__"]

@@ -25,8 +25,18 @@ Alias      Myanti-D0   anti-D0
 ChargeConj MyD0 Myanti-D0
 
 Alias MyUpsilon Upsilon
+Alias MyUpsilon(2S) Upsilon(2S)
+Alias MyUpsilon(3S) Upsilon(3S)
 
 Decay MyUpsilon
+  1.000        mu+     mu-       PHOTOS   VLL;
+Enddecay
+
+Decay MyUpsilon(2S)
+  1.000        mu+     mu-       PHOTOS   VLL;
+Enddecay
+
+Decay MyUpsilon(3S)
   1.000        mu+     mu-       PHOTOS   VLL;
 Enddecay
 
@@ -46,7 +56,7 @@ End
         pythia8CUEP8M1SettingsBlock,
         processParameters = cms.vstring(
             #'Main:timesAllowErrors = 10000',  
-	        'HardQCD:hardccbar = on',
+	          'HardQCD:hardccbar = on',
             'HardQCD:gg2gg = on',
             'PartonLevel:MPI = on',
             'SecondHard:Bottomonium = on',
@@ -55,10 +65,10 @@ End
             'PhaseSpace:pTHatMin = 4.5',
             'PhaseSpace:pTHatMinSecond = 4.5',
             'PhaseSpace:pTHatMinDiverge = 0.5',
-            #'443:onMode = off',
-            #'421:onMode = off',
+            '553:onMode = off',
+            '421:onMode = off',
+            '413:onMode = off',
             #'411:onMode = off',
-            #'431:onMode = off',
             #'4122:onMode = off'
             ),
         parameterSets = cms.vstring('pythia8CommonSettings',
@@ -76,14 +86,14 @@ generator.PythiaParameters.processParameters.extend(EvtGenExtraParticles)
 # Filter only pp events which produce Upsilon (1S)
 
 upsilonfilter = cms.EDFilter("PythiaFilter", 
-    ParticleID = cms.untracked.int32(553),
+    ParticleID      = cms.untracked.int32(553),
     MinPt           = cms.untracked.double(0.0), 
     MinEta          = cms.untracked.double(-1000.0),
     MaxEta          = cms.untracked.double(1000.0)
 )
 
 dzerofilter = cms.EDFilter("MCSingleParticleFilter",
-    ParticleID = cms.untracked.vint32(421, -421),
+    ParticleID      = cms.untracked.vint32(421, -421),
     MinPt           = cms.untracked.vdouble(0.0 ,0.0),
     MinEta          = cms.untracked.vdouble(-1000.0, -1000.0),
     MaxEta          = cms.untracked.vdouble(1000.0, 1000.0)
