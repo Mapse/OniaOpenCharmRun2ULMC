@@ -16,6 +16,8 @@ parser.add_argument('-c', '--config', help='config to be used in submition', typ
 
 args = parser.parse_args()
 
+cfg = args.config
+
 if (args.config.endswith(".py")):
     cfg = args.config[:-3]
 

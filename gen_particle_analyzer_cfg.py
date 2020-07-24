@@ -32,12 +32,12 @@ process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
-#mylist = FileUtils.loadListFromFile(options.inFile)
+mylist = FileUtils.loadListFromFile(options.inFile)
 
 process.source = cms.Source(
     "PoolSource",
-    fileNames  = cms.untracked.vstring("file:UpsilonToMuMuDzero_13TeV_GS.root"),
-    #fileNames  = cms.untracked.vstring(*mylist),
+    #fileNames  = cms.untracked.vstring("file:UpsilonToMuMuDzero_13TeV_GS.root"),
+    fileNames  = cms.untracked.vstring(*mylist),
     duplicateCheckMode = cms.untracked.string('noDuplicateCheck')
 )
 
@@ -48,6 +48,7 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 process.genparticleana = cms.EDAnalyzer(
     'GenParticleAnalyzer',
     outFile = cms.string(options.outFile),
+    verbose = cms.int32(0)
 )
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')

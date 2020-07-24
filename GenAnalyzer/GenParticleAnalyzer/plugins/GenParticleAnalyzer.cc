@@ -106,6 +106,8 @@ class GenParticleAnalyzer : public edm::one::EDAnalyzer<edm::one::SharedResource
 
       // description
       std::string outFile;
+
+      int _verbose;
 };
 
 //
@@ -126,6 +128,7 @@ GenParticleAnalyzer::GenParticleAnalyzer(const edm::ParameterSet& iConfig)
    //now do what ever initialization is needed
    /* edm::Service<TFileService> fs; */
    outFile = iConfig.getParameter<std::string>("outFile");
+   _verbose = iConfig.getParameter<int>("verbose");
    file = new TFile(outFile.c_str(), "recreate"); // check
    Events = new TTree("Events", "Events");
    //Events = fs->make<TTree>("Events","Events");
@@ -185,15 +188,15 @@ void GenParticleAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetu
          /* if ((std::abs(genp->pdgId()) == 13) && !oniaMom) continue;
          if (track && !Dmom) continue;
  */
-         /* if (std::abs(genp->pdgId()) == 421) {
-            std::cout << "Found D0. " << "vtx: x=" << genp->vx() << " y=" << genp->vy() << " z=" << genp->vz() << std::endl;
+          if ((_verbose > 0) && (std::abs(genp->pdgId()) == 553)) {
+            std::cout << "Found upsilon. " << "vtx: x=" << genp->vx() << " y=" << genp->vy() << " z=" << genp->vz() << " status="  << genp->status() << std::endl;
             std::cout << "n daughter: " << genp->numberOfDaughters() << std::endl;
             size_t ndau = genp->numberOfDaughters();
             for (size_t i = 0; i < ndau; ++i) {
                const reco::Candidate *daughter = genp->daughter(i);
                std::cout << (daughter->pdgId()) << std::endl;
             }            
-         } */
+         } 
 
          if (GenPart_pdgId.size() < nReserve_GenPart){
             GenPart_pdgId.push_back(genp->pdgId());
@@ -300,6 +303,7 @@ void GenParticleAnalyzer::fillDescriptions(edm::ConfigurationDescriptions& descr
   // Please change this to state exactly what you do use, even if it is no parameters
    edm::ParameterSetDescription desc;
    desc.add<std::string>("outFile", "test.root");
+   desc.add<int>("verbose", 0);
    descriptions.add("GenParticleAnalyzer", desc);
 
 }
