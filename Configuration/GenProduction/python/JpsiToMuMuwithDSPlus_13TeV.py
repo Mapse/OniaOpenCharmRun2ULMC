@@ -91,16 +91,14 @@ dSPlusfilter = cms.EDFilter("MCSingleParticleFilter",
     MaxEta          = cms.untracked.vdouble(500., 500.)
 )
 
-jpsidaufilter = cms.EDFilter(
-    "PythiaDauVFilter",
-    verbose         = cms.untracked.int32(1),
-    NumberDaughters = cms.untracked.int32(2),
-    #MotherID        = cms.untracked.int32(541),
-    ParticleID      = cms.untracked.int32(443),
-    DaughterIDs     = cms.untracked.vint32(13, -13),
-    MinPt           = cms.untracked.vdouble(0.5, 0.5),
-    MinEta          = cms.untracked.vdouble(-2.5, -2.5),
-    MaxEta          = cms.untracked.vdouble(2.5, 2.5)
+mumufilter = cms.EDFilter("MCParticlePairFilter",
+    Status = cms.untracked.vint32(1, 1),
+    MinPt = cms.untracked.vdouble(0.5, 0.5),
+    MaxEta = cms.untracked.vdouble(2.5, 2.5),
+    MinEta = cms.untracked.vdouble(-2.5, -2.5),
+    ParticleCharge = cms.untracked.int32(-1),
+    ParticleID1 = cms.untracked.vint32(13),
+    ParticleID2 = cms.untracked.vint32(13)
 )
 # OBS: The filter is with wrong daughters
 dSPlusdaufilter = cms.EDFilter(
@@ -117,4 +115,4 @@ dSPlusdaufilter = cms.EDFilter(
 
                         
 
-ProductionFilterSequence = cms.Sequence(generator*jpsifilter*dSPlusfilter*jpsidaufilter*dSPlusdaufilter)#*dPlusfilter*mumugenfilter)
+ProductionFilterSequence = cms.Sequence(generator*jpsifilter*dSPlusfilter*mumufilter)
