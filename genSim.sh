@@ -132,7 +132,7 @@ elif [[ "$MonteCarlo_energy" == "13TeV" ]]; then
    
    # Runs Monte Carlo for production of J/Psi meson associated with Lambda_c+ meson.
    elif [[ "$MonteCarlo_particle" == "Lambda_c+" ]] || [[ "$MonteCarlo_particle" == "lambda_c+" ]] || [[ "$MonteCarlo_particle" == "Lambda_C+" ]] || [[ "$MonteCarlo_particle" == "Lambda_Cplus" ]] || [[ "$MonteCarlo_particle" == "Lambda_CPlus" ]] || [[ "$MonteCarlo_particle" == "Lambdac+" ]] || [[ "$MonteCarlo_particle" == "lambdac+" ]] || [[ "$MonteCarlo_particle" == "LambdaC+" ]] || [[ "$MonteCarlo_particle" == "lambdaC+" ]]; then
-      PS1='[\u@\h \W]\ Lambda_c+ Simulation at 13 TeV: $'
+      PS1='[\u@\h \W]\ Lambda_c+ Simulation at 13 TeV:$'
 
       echo -e " \n \n -------------------------- Running fragment for Lambda_c+ meson --------------------------"
       cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithLambdaCPlus_13TeV.py --fileout file:JpsiToMuMuwithLambdac_13TeV_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 102X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_GS.py --no_exec -n $MonteCarlo_numevts
