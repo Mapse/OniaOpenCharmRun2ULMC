@@ -138,7 +138,16 @@ elif [[ "$MonteCarlo_energy" == "13TeV" ]]; then
       cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithLambdaCPlus_13TeV.py --fileout file:JpsiToMuMuwithLambdac_13TeV_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 102X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_GS.py --no_exec -n $MonteCarlo_numevts
       cmsRun JpsiToMuMuwithLambdaCPlus_13TeV_GS.py
    
+   # Runs Monte Carlo for production of J/Psi meson associated with D* meson.
+   elif [ "$MonteCarlo_particle" == "D*" ]; then
+      PS1='[\u@\h \W]\ D* Simulation at 13 TeV:$'
+
+      echo -e " \n \n -------------------------- Running fragment for D* meson --------------------------"
+      cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithD*_13TeV.py --fileout file:JpsiToMuMuwithLambdac_13TeV_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 102X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithD*_13TeV_GS.py --no_exec -n $MonteCarlo_numevts
+      cmsRun JpsiToMuMuwithD*_13TeV_GS.py
+   
    fi
+   
 
 else
   
