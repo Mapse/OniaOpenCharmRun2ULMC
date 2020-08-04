@@ -55,14 +55,9 @@ End
             'SecondHard:Charmonium = on',
             'SecondHard:generate = on',
             #'StringFlav:mesonCvector = 1.4',
-            'PhaseSpace:pTHatMin = 4.5',
-            'PhaseSpace:pTHatMinSecond = 4.5',
-            'PhaseSpace:pTHatMinDiverge = 0.1',
-            #'443:onMode = off',
-            #'421:onMode = off',
-            #'411:onMode = off',
-            #'431:onMode = off',
-            #'4122:onMode = off'
+            'PhaseSpace:pTHatMin = 4.0',
+            'PhaseSpace:pTHatMinSecond = 4.0',
+            'PhaseSpace:pTHatMinDiverge = 0.4',
             ),
         parameterSets = cms.vstring('pythia8CommonSettings',
                                     'pythia8CUEP8M1Settings',
@@ -86,34 +81,21 @@ jpsifilter = cms.EDFilter("PythiaFilter",
 
 lambdaCPlusfilter = cms.EDFilter("MCSingleParticleFilter",
     ParticleID = cms.untracked.vint32(4122, -4122),
-    MinPt           = cms.untracked.vdouble(3., 3.),
-    MaxPt           = cms.untracked.vdouble(12., 12.),
-    MinEta          = cms.untracked.vdouble(-500., -500),
+    MinPt           = cms.untracked.vdouble(0., 0.),
+    MinEta          = cms.untracked.vdouble(-500., -500.),
     MaxEta          = cms.untracked.vdouble(500., 500.)
 )
 
-jpsidaufilter = cms.EDFilter(
-    "PythiaDauVFilter",
-    verbose         = cms.untracked.int32(1),
-    NumberDaughters = cms.untracked.int32(2),
-    #MotherID        = cms.untracked.int32(541),
-    ParticleID      = cms.untracked.int32(443),
-    DaughterIDs     = cms.untracked.vint32(13, -13),
-    MinPt           = cms.untracked.vdouble(0.5, 0.5),
-    MinEta          = cms.untracked.vdouble(-2.5, -2.5),
-    MaxEta          = cms.untracked.vdouble(2.5, 2.5)
+mumufilter = cms.EDFilter("MCParticlePairFilter",
+    Status = cms.untracked.vint32(1, 1),
+    MinP = cms.untracked.vdouble(2.7, 2.7),
+    MinPt = cms.untracked.vdouble(0.5, 0.5),
+    MaxEta = cms.untracked.vdouble(2.5, 2.5),
+    MinEta = cms.untracked.vdouble(-2.5, -2.5),
+    ParticleCharge = cms.untracked.int32(-1),
+    ParticleID1 = cms.untracked.vint32(13),
+    ParticleID2 = cms.untracked.vint32(13)
 )
-# OBS: The filter is with wrong daughters
-LambdacPlusdaufilter = cms.EDFilter(
-    "PythiaDauVFilter",
-    verbose         = cms.untracked.int32(1),
-    NumberDaughters = cms.untracked.int32(3),
-    #MotherID        = cms.untracked.int32(541),
-    ParticleID      = cms.untracked.int32(431),
-    DaughterIDs     = cms.untracked.vint32(-321, 211, 2212),
-    MinPt           = cms.untracked.vdouble(0.3, 0.3, 0.3),
-    MinEta          = cms.untracked.vdouble(-2.5, -2.5, -2.5),
-    MaxEta          = cms.untracked.vdouble(2.5, 2.5, 2.5)
-) 
 
-ProductionFilterSequence = cms.Sequence(generator*jpsifilter*lambdaCPlusfilter*jpsidaufilter*LambdacPlusdaufilter)#*dPlusfilter*mumugenfilter)
+
+ProductionFilterSequence = cms.Sequence(generator*jpsifilter*lambdaCPlusfilter*mumufilter)

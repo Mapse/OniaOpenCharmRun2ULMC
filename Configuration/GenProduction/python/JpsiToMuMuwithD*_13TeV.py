@@ -57,14 +57,9 @@ End
             'SecondHard:Charmonium = on',
             'SecondHard:generate = on',
             #'StringFlav:mesonCvector = 1.4',
-            'PhaseSpace:pTHatMin = 4.',
-            'PhaseSpace:pTHatMinSecond = 4.',
+            'PhaseSpace:pTHatMin = 4.0',
+            'PhaseSpace:pTHatMinSecond = 4.0',
             'PhaseSpace:pTHatMinDiverge = 0.4',
-            #'443:onMode = off',
-            #'421:onMode = off',
-            #'413:onMode = off',
-            #'431:onMode = off',
-            #'4122:onMode = off'
             ),
         parameterSets = cms.vstring('pythia8CommonSettings',
                                     'pythia8CUEP8M1Settings',
@@ -94,6 +89,7 @@ dstarfilter = cms.EDFilter("MCSingleParticleFilter",
 
 mumufilter = cms.EDFilter("MCParticlePairFilter",
     Status = cms.untracked.vint32(1, 1),
+    MinP = cms.untracked.vdouble(2.7, 2.7),
     MinPt = cms.untracked.vdouble(0.5, 0.5),
     MaxEta = cms.untracked.vdouble(2.5, 2.5),
     MinEta = cms.untracked.vdouble(-2.5, -2.5),
@@ -101,18 +97,5 @@ mumufilter = cms.EDFilter("MCParticlePairFilter",
     ParticleID1 = cms.untracked.vint32(13),
     ParticleID2 = cms.untracked.vint32(13)
 )
-
-""" dstardaufilter = cms.EDFilter(
-    "PythiaDauVFilter",
-    verbose         = cms.untracked.int32(1),
-    NumberDaughters = cms.untracked.int32(3),
-    #MotherID        = cms.untracked.int32(541),
-    ParticleID      = cms.untracked.int32(421),
-    DaughterIDs     = cms.untracked.vint32(-321, 211, 211),
-    MinPt           = cms.untracked.vdouble(0.5, 0.5, 0.5),
-    MinEta          = cms.untracked.vdouble(-2.5, -2.5, -2.5),
-    MaxEta          = cms.untracked.vdouble(2.5, 2.5, 2.5)
-)  """
-
 
 ProductionFilterSequence = cms.Sequence(generator*jpsifilter*dstarfilter*mumufilter)
