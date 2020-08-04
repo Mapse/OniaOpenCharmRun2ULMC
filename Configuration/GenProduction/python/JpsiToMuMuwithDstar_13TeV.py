@@ -19,13 +19,13 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
                          convertPythiaCodes = cms.untracked.bool(False),
                          #user_decay_file = cms.vstring('GeneratorInterface/ExternalDecays/data/Bu_Kstarmumu_Kspi.dec'),
                          #content was dump in the embed string below. This should test this feature.
-                         list_forced_decays = cms.vstring('MyJpsi','MyD0', 'Myanti-D0'), 
-                         operates_on_particles = cms.vint32(443, 421, -421),
+                         list_forced_decays = cms.vstring('MyJpsi', 'MyD*+', 'MyD*-'), 
+                         operates_on_particles = cms.vint32(443, 413, -413),
                          user_decay_embedded= cms.vstring(
 """
-Alias      MyD0        D0
-Alias      Myanti-D0   anti-D0
-ChargeConj MyD0 Myanti-D0
+Alias      MyD*+       D*+
+Alias      MyD*-       D*-
+ChargeConj MyD*+       MyD*-
 
 Alias      MyJpsi      J/psi
 
@@ -33,11 +33,13 @@ Decay MyJpsi
   1.000        mu+     mu-       PHOTOS   VLL;
 Enddecay
 
-Decay MyD0
-  1.000        K-      pi+              PHSP;
+Decay MyD*+
+  1.000       D0      pi+                        VSS;
 Enddecay
-CDecay Myanti-D0
 
+Decay MyD*-
+  1.000       anti-D0 pi-                        VSS;
+Enddecay
 End
 """
                           ),
@@ -49,12 +51,12 @@ End
         pythia8CUEP8M1SettingsBlock,
         processParameters = cms.vstring(
             'Main:timesAllowErrors = 10000',  
-	          'HardQCD:hardccbar = on',
+            'HardQCD:hardccbar = on',
             'HardQCD:gg2gg = on',
             'PartonLevel:MPI = on',
             'SecondHard:Charmonium = on',
             'SecondHard:generate = on',
-            ##'StringFlav:mesonCvector = 1.4',
+            #'StringFlav:mesonCvector = 1.4',
             'PhaseSpace:pTHatMin = 4.0',
             'PhaseSpace:pTHatMinSecond = 4.0',
             'PhaseSpace:pTHatMinDiverge = 0.4',
@@ -67,7 +69,6 @@ End
                          )
 
 generator.PythiaParameters.processParameters.extend(EvtGenExtraParticles)
-
 ###########
 # Filters #
 ###########
@@ -79,8 +80,8 @@ jpsifilter = cms.EDFilter("PythiaFilter",
     MaxEta          = cms.untracked.double(500.)
 )
 
-dzerofilter = cms.EDFilter("MCSingleParticleFilter",
-    ParticleID = cms.untracked.vint32(421, -421),
+dstarfilter = cms.EDFilter("MCSingleParticleFilter",
+    ParticleID = cms.untracked.vint32(413, -413),
     MinPt           = cms.untracked.vdouble(0., 0.),
     MinEta          = cms.untracked.vdouble(-500., -500.),
     MaxEta          = cms.untracked.vdouble(500., 500.)
@@ -97,4 +98,4 @@ mumufilter = cms.EDFilter("MCParticlePairFilter",
     ParticleID2 = cms.untracked.vint32(13)
 )
 
-ProductionFilterSequence = cms.Sequence(generator*jpsifilter*dzerofilter*mumufilter)
+ProductionFilterSequence = cms.Sequence(generator*jpsifilter*dstarfilter*mumufilter)
