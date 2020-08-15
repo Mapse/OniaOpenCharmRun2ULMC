@@ -172,14 +172,18 @@ void GenParticleAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetu
         GenPart_PVz = genp->vz();
         PVfilled = true;
       }
+      
 
-      // Get the b and c quarks, D0, D+, D*, Upsilon, Jpsi, Kaons, pions and muons
+      // Get the b and c quarks, D0, D+, D_s+, D*, Lambda_c+, Upsilon, Jpsi, protons, Kaons, pions and muons
       if ( (std::abs(genp->pdgId()) == 5) || (std::abs(genp->pdgId()) == 4) || (std::abs(genp->pdgId()) == 421) || 
             (std::abs(genp->pdgId()) == 413) || (std::abs(genp->pdgId()) == 411) || (std::abs(genp->pdgId()) == 443) || 
             (std::abs(genp->pdgId()) == 553) || (std::abs(genp->pdgId()) == 13) || (std::abs(genp->pdgId()) == 211) || 
-            (std::abs(genp->pdgId()) == 321)) {
-
-         const reco::Candidate *mom = genp->mother();
+            (std::abs(genp->pdgId()) == 321) || (std::abs(genp->pdgId()) == 431) || (std::abs(genp->pdgId()) == 2112)) {
+         
+         // Remove beams protons, because they don't have mother.
+         if ((std::abs(genp->pdgId()) == 2112) && genp->status() == 4 ) continue;
+         
+         const reco::Candidate *mom = genp->mother(); 
 
          /* bool oniaMom = (std::abs(mom->pdgId()) == 553) || (std::abs(mom->pdgId()) == 443);
          bool Dmom = (std::abs(mom->pdgId()) == 411) || (std::abs(mom->pdgId()) == 413) || (std::abs(mom->pdgId()) == 421) || (std::abs(mom->pdgId()) == 443);
