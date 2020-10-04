@@ -1,36 +1,570 @@
 
 Fragment: J/Psi + D0
 
+---------------------------------------------------- 2016 ----------------------------------------------------
+
+Step 0 (GEN, SIM)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDzero_13TeV_cfi.py --fileout file:JpsiToMuMuwithDzero_13TeV_2016_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --beamspot Realistic25ns13TeV2016Collision --step GEN,SIM --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDzero_13TeV_2016_GS_cfg.py -n 20 --no_exec
+
+Step 1 (DIGI2RAW)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDzero_13TeV_2016_GS.root --fileout file:JpsiToMuMuwithDzero_13TeV_2016_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL16_106X_mcRun2_asymptotic_v10-v2/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDzero_13TeV_2016_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDzero_13TeV_2016_DR.root ../../CMSSW_8_0_33_UL/src
+
+cd ../../CMSSW_8_0_33_UL/src/
+
+Step2 : (HLT)
+
+Version: CMSSW_8_0_33_UL
+
+cmsDriver.py --filein file:JpsiToMuMuwithDzero_13TeV_2016_DR.root --fileout file:JpsiToMuMuwithDzero_13TeV_2016_HLT.root --mc --eventcontent RAWSIM --outputCommand "keep *_mix_*_*,keep *_genPUProtons_*_*" --datatier GEN-SIM-RAW --inputCommands "keep *","drop *_*_BMTF_*","drop *PixelFEDChannel*_*_*_*" --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:25ns15e33_v4 --nThreads 8 --geometry DB:Extended --era Run2_2016 --python_filename JpsiToMuMuwithDzero_13TeV_2016_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDzero_13TeV_2016_HLT.root ../../CMSSW_10_6_12/src
+
+cd ../../CMSSW_10_6_12/src
+
+Step 3:  (RECO - AOD)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDzero_13TeV_2016_HLT.root --fileout file:JpsiToMuMuwithDzero_13TeV_2016_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step RAW2DIGI,L1Reco,RECO,RECOSIM --nThreads 8 --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDzero_13TeV_2016_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDzero_13TeV_2016_RECO.root --fileout file:JpsiToMuMuwithDzero_13TeV_2016_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDzero_13TeV_2016_MINIAOD_cfg.py -n -1 --no_exec
+
 ---------------------------------------------------- 2017 ----------------------------------------------------
 
 Step 0 (GEM, SIM)
 
 Version: CMSSW_10_6_12
 
-cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDzero_13TeV_cfi.py --fileout file:JpsiToMuMuwithDzero_13TeV_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDzero_13TeV_GS_cfg.py -n 100000 --no_exec
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDzero_13TeV_cfi.py --fileout file:JpsiToMuMuwithDzero_13TeV_2017_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDzero_13TeV_2017_GS_cfg.py -n 100000 --no_exec
 
 Version: CMSSW_10_6_12
 
 Step 1 (DIGI2RAW)
 
-cmsDriver.py --filein file:JpsiToMuMuwithDzero_13TeV_GS.root --fileout file:JpsiToMuMuwithDzero_13TeV_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL17_106X_mc2017_realistic_v6-v1/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mc2017_realistic_v6 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2017 --python_filename JpsiToMuMuwithDzero_13TeV_DR_cfg.py -n -1 --no_exec
+cmsDriver.py --filein file:JpsiToMuMuwithDzero_13TeV_2017_GS.root --fileout file:JpsiToMuMuwithDzero_13TeV_2017_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL17_106X_mc2017_realistic_v6-v1/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mc2017_realistic_v6 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2017 --python_filename JpsiToMuMuwithDzero_13TeV_2017_DR_cfg.py -n -1 --no_exec
 
-mv JpsiToMuMuwithDzero_13TeV_GS_DR.root ../../CMSSW_9_4_14_UL_patch1/src
+mv JpsiToMuMuwithDzero_13TeV_2017_DR.root ../../CMSSW_9_4_14_UL_patch1/src
 
 Step2: (HLT)
 
 Version: CMSSW_9_4_14_UL_patch1 
 
-cmsDriver.py --filein file:JpsiToMuMuwithDzero_13TeV_DR.root --fileout file:JpsiToMuMuwithDZero_13TeV_HLT.root --mc --eventcontent RAWSIM --datatier GEN-SIM-RAW --conditions 94X_mc2017_realistic_v15 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:2e34v40 --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDZero_13TeV_HLT_2017_cfg.py -n -1 --no_exec
+cmsDriver.py --filein file:JpsiToMuMuwithDzero_13TeV_2017_DR.root --fileout file:JpsiToMuMuwithDZero_13TeV_2017_HLT.root --mc --eventcontent RAWSIM --datatier GEN-SIM-RAW --conditions 94X_mc2017_realistic_v15 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:2e34v40 --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDZero_13TeV_2017_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDZero_13TeV_2017_HLT.root ../../CMSSW_10_6_12/src
 
 Step 3: (RECO - AOD)
 
 Version: CMSSW_10_6_12
 
-mv JpsiToMuMuwithDZero_13TeV_HLT.root ../../CMSSW_10_6_12/src
-
-cmsDriver.py  --filein file:JpsiToMuMuwithDZero_13TeV_HLT.root --fileout file:JpsiToMuMuwithDZero_13TeV_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_mc2017_realistic_v6 --step RAW2DIGI,L1Reco,RECO,RECOSIM --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDZero_13TeV_RECO_2017_cfg.py -n -1 --no_exec
+cmsDriver.py  --filein file:JpsiToMuMuwithDZero_13TeV_2017_HLT.root --fileout file:JpsiToMuMuwithDZero_13TeV_2017_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_mc2017_realistic_v6 --step RAW2DIGI,L1Reco,RECO,RECOSIM --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDZero_13TeV_2017_RECO_cfg.py -n -1 --no_exec
 
 Step 4: (MiniAOD)
 
-cmsDriver.py --filein file:JpsiToMuMuwithDZero_13TeV_RECO.root --fileout file:JpsiToMuMuwithDZero_13TeV_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_mc2017_realistic_v6 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDZero_13TeV_MINIAOD_2017_cfg.py -n -1 --no_exec
+cmsDriver.py --filein file:JpsiToMuMuwithDZero_13TeV_2017_RECO.root --fileout file:JpsiToMuMuwithDZero_13TeV_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_mc2017_realistic_v6 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDZero_13TeV_2017_MINIAOD_cfg.py -n -1 --no_exec
+
+
+
+---------------------------------------------------- 2018 ----------------------------------------------------
+
+Step 0 (GEM, SIM)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDzero_13TeV_cfi.py --fileout file:JpsiToMuMuwithDzero_13TeV_2018_GS.root --mc --eventcontent RAWSIM --runUnscheduled --datatier GEN-SIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDzero_13TeV_2018_GEN_cfg.py -n 20 --no_exec
+
+Step 1 (DIGI2RAW)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDzero_13TeV_2018_GS.root --fileout file:JpsiToMuMuwithDzero_13TeV_2018_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL18_106X_upgrade2018_realistic_v11_L1v1-v2/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_upgrade2018_realistic_v11_L1v1 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2018 --python_filename JpsiToMuMuwithDzero_13TeV_2018_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDzero_13TeV_2018_DR.root ../../CMSSW_10_2_16_UL/src
+
+cd ../../CMSSW_10_2_16_UL/src
+
+Step2: (HLT)
+
+Version: CMSSW_10_2_16_UL
+
+cmsDriver.py step4 --filein file:JpsiToMuMuwithDzero_13TeV_2018_DR.root --fileout file:JpsiToMuMuwithDzero_13TeV_2018_HLT.root --mc --eventcontent RAWSIM --datatier GEN-SIM-RAW --conditions 102X_upgrade2018_realistic_v15 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:2018v32 --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDzero_13TeV_2018_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDzero_13TeV_2018_HLT.root ../../CMSSW_10_6_12/src
+
+cd ../../CMSSW_10_6_12/src
+
+Step 3: (RECO - AOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDzero_13TeV_2018_HLT.root --fileout file:JpsiToMuMuwithDzero_13TeV_2018_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDzero_13TeV_2018_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDzero_13TeV_2018_RECO.root --fileout file:JpsiToMuMuwithDzero_13TeV_2018_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDzero_13TeV_2018_MiniAOD_cfg.py -n -1 --no_exec
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+Fragment: J/Psi + D+
+
+---------------------------------------------------- 2016 ----------------------------------------------------
+
+Step 0 (GEN, SIM)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDPlus_13TeV_cfi.py --fileout file:JpsiToMuMuwithDPlus_13TeV_2016_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --beamspot Realistic25ns13TeV2016Collision --step GEN,SIM --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDPlus_13TeV_2016_GS_cfg.py -n 20 --no_exec
+
+Step 1 (DIGI2RAW)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDPlus_13TeV_2016_GS.root --fileout file:JpsiToMuMuwithDPlus_13TeV_2016_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL16_106X_mcRun2_asymptotic_v10-v2/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDPlus_13TeV_2016_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDPlus_13TeV_2016_DR.root ../../CMSSW_8_0_33_UL/src
+
+cd ../../CMSSW_8_0_33_UL/src/
+
+Step2 : (HLT)
+
+Version: CMSSW_8_0_33_UL
+
+cmsDriver.py --filein file:JpsiToMuMuwithDPlus_13TeV_2016_DR.root --fileout file:JpsiToMuMuwithDPlus_13TeV_2016_HLT.root --mc --eventcontent RAWSIM --outputCommand "keep *_mix_*_*,keep *_genPUProtons_*_*" --datatier GEN-SIM-RAW --inputCommands "keep *","drop *_*_BMTF_*","drop *PixelFEDChannel*_*_*_*" --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:25ns15e33_v4 --nThreads 8 --geometry DB:Extended --era Run2_2016 --python_filename JpsiToMuMuwithDPlus_13TeV_2016_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDPlus_13TeV_2016_HLT.root ../../CMSSW_10_6_12/src
+
+cd ../../CMSSW_10_6_12/src
+
+Step 3:  (RECO - AOD)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDPlus_13TeV_2016_HLT.root --fileout file:JpsiToMuMuwithDPlus_13TeV_2016_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step RAW2DIGI,L1Reco,RECO,RECOSIM --nThreads 8 --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDPlus_13TeV_2016_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDPlus_13TeV_2016_RECO.root --fileout file:JpsiToMuMuwithDPlus_13TeV_2016_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDPlus_13TeV_2016_MINIAOD_cfg.py -n -1 --no_exec
+
+---------------------------------------------------- 2017 ----------------------------------------------------
+
+Step 0 (GEM, SIM)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDPlus_13TeV_cfi.py --fileout file:JpsiToMuMuwithDPlus_13TeV_2017_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDPlus_13TeV_2017_GS_cfg.py -n 100000 --no_exec
+
+Version: CMSSW_10_6_12
+
+Step 1 (DIGI2RAW)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDPlus_13TeV_2017_GS.root --fileout file:JpsiToMuMuwithDPlus_13TeV_2017_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL17_106X_mc2017_realistic_v6-v1/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mc2017_realistic_v6 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2017 --python_filename JpsiToMuMuwithDPlus_13TeV_2017_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDPlus_13TeV_2017_DR.root ../../CMSSW_9_4_14_UL_patch1/src
+
+Step2: (HLT)
+
+Version: CMSSW_9_4_14_UL_patch1 
+
+cmsDriver.py --filein file:JpsiToMuMuwithDPlus_13TeV_2017_DR.root --fileout file:JpsiToMuMuwithDPlus_13TeV_2017_HLT.root --mc --eventcontent RAWSIM --datatier GEN-SIM-RAW --conditions 94X_mc2017_realistic_v15 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:2e34v40 --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDPlus_13TeV_2017_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDPlus_13TeV_2017_HLT.root ../../CMSSW_10_6_12/src
+
+Step 3: (RECO - AOD)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py  --filein file:JpsiToMuMuwithDPlus_13TeV_2017_HLT.root --fileout file:JpsiToMuMuwithDPlus_13TeV_2017_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_mc2017_realistic_v6 --step RAW2DIGI,L1Reco,RECO,RECOSIM --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDPlus_13TeV_2017_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDPlus_13TeV_2017_RECO.root --fileout file:JpsiToMuMuwithDPlus_13TeV_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_mc2017_realistic_v6 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDPlus_13TeV_2017_MINIAOD_cfg.py -n -1 --no_exec
+
+
+
+---------------------------------------------------- 2018 ----------------------------------------------------
+
+Step 0 (GEM, SIM)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDPlus_13TeV_cfi.py --fileout file:JpsiToMuMuwithDPlus_13TeV_2018_GS.root --mc --eventcontent RAWSIM --runUnscheduled --datatier GEN-SIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDPlus_13TeV_2018_GEN_cfg.py -n 20 --no_exec
+
+Step 1 (DIGI2RAW)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDPlus_13TeV_2018_GS.root --fileout file:JpsiToMuMuwithDPlus_13TeV_2018_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL18_106X_upgrade2018_realistic_v11_L1v1-v2/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_upgrade2018_realistic_v11_L1v1 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2018 --python_filename JpsiToMuMuwithDPlus_13TeV_2018_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDPlus_13TeV_2018_DR.root ../../CMSSW_10_2_16_UL/src
+
+cd ../../CMSSW_10_2_16_UL/src
+
+Step2: (HLT)
+
+Version: CMSSW_10_2_16_UL
+
+cmsDriver.py step4 --filein file:JpsiToMuMuwithDPlus_13TeV_2018_DR.root --fileout file:JpsiToMuMuwithDPlus_13TeV_2018_HLT.root --mc --eventcontent RAWSIM --datatier GEN-SIM-RAW --conditions 102X_upgrade2018_realistic_v15 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:2018v32 --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDPlus_13TeV_2018_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDPlus_13TeV_2018_HLT.root ../../CMSSW_10_6_12/src
+
+Step 3: (RECO - AOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDPlus_13TeV_2018_HLT.root --fileout file:JpsiToMuMuwithDPlus_13TeV_2018_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDPlus_13TeV_2018_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDPlus_13TeV_2018_RECO.root --fileout file:JpsiToMuMuwithDPlus_13TeV_2018_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDPlus_13TeV_2018_MiniAOD_cfg.py -n -1 --no_exec
+
+----------------------------------------------------------------------------------------------------------------------------
+
+Fragment: J/Psi + D*+
+
+---------------------------------------------------- 2016 ----------------------------------------------------
+
+Step 0 (GEN, SIM)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDstar_13TeV_cfi.py --fileout file:JpsiToMuMuwithDstar_13TeV_2016_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --beamspot Realistic25ns13TeV2016Collision --step GEN,SIM --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDstar_13TeV_2016_GS_cfg.py -n 20 --no_exec
+
+Step 1 (DIGI2RAW)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDstar_13TeV_2016_GS.root --fileout file:JpsiToMuMuwithDstar_13TeV_2016_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL16_106X_mcRun2_asymptotic_v10-v2/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDstar_13TeV_2016_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDstar_13TeV_2016_DR.root ../../CMSSW_8_0_33_UL/src
+
+cd ../../CMSSW_8_0_33_UL/src/
+
+Step2 : (HLT)
+
+Version: CMSSW_8_0_33_UL
+
+cmsDriver.py --filein file:JpsiToMuMuwithDstar_13TeV_2016_DR.root --fileout file:JpsiToMuMuwithDstar_13TeV_2016_HLT.root --mc --eventcontent RAWSIM --outputCommand "keep *_mix_*_*,keep *_genPUProtons_*_*" --datatier GEN-SIM-RAW --inputCommands "keep *","drop *_*_BMTF_*","drop *PixelFEDChannel*_*_*_*" --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:25ns15e33_v4 --nThreads 8 --geometry DB:Extended --era Run2_2016 --python_filename JpsiToMuMuwithDstar_13TeV_2016_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDstar_13TeV_2016_HLT.root ../../CMSSW_10_6_12/src
+
+cd ../../CMSSW_10_6_12/src
+
+Step 3:  (RECO - AOD)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDstar_13TeV_2016_HLT.root --fileout file:JpsiToMuMuwithDstar_13TeV_2016_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step RAW2DIGI,L1Reco,RECO,RECOSIM --nThreads 8 --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDstar_13TeV_2016_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDstar_13TeV_2016_RECO.root --fileout file:JpsiToMuMuwithDstar_13TeV_2016_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDstar_13TeV_2016_MINIAOD_cfg.py -n -1 --no_exec
+
+---------------------------------------------------- 2017 ----------------------------------------------------
+
+Step 0 (GEM, SIM)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDstar_13TeV_cfi.py --fileout file:JpsiToMuMuwithDstar_13TeV_2017_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDstar_13TeV_2017_GS_cfg.py -n 100000 --no_exec
+
+Version: CMSSW_10_6_12
+
+Step 1 (DIGI2RAW)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDstar_13TeV_2017_GS.root --fileout file:JpsiToMuMuwithDstar_13TeV_2017_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL17_106X_mc2017_realistic_v6-v1/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mc2017_realistic_v6 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2017 --python_filename JpsiToMuMuwithDstar_13TeV_2017_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDstar_13TeV_2017_DR.root ../../CMSSW_9_4_14_UL_patch1/src
+
+Step2: (HLT)
+
+Version: CMSSW_9_4_14_UL_patch1 
+
+cmsDriver.py --filein file:JpsiToMuMuwithDstar_13TeV_2017_DR.root --fileout file:JpsiToMuMuwithDstar_13TeV_2017_HLT.root --mc --eventcontent RAWSIM --datatier GEN-SIM-RAW --conditions 94X_mc2017_realistic_v15 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:2e34v40 --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDstar_13TeV_2017_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDstar  _13TeV_2017_HLT.root ../../CMSSW_10_6_12/src
+
+Step 3: (RECO - AOD)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py  --filein file:JpsiToMuMuwithDstar_13TeV_2017_HLT.root --fileout file:JpsiToMuMuwithDstar_13TeV_2017_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_mc2017_realistic_v6 --step RAW2DIGI,L1Reco,RECO,RECOSIM --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDstar_13TeV_2017_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDstar_13TeV_2017_RECO.root --fileout file:JpsiToMuMuwithDstar_13TeV_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_mc2017_realistic_v6 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDstar_13TeV_2017_MINIAOD_cfg.py -n -1 --no_exec
+
+
+
+---------------------------------------------------- 2018 ----------------------------------------------------
+
+Step 0 (GEM, SIM)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDstar_13TeV_cfi.py --fileout file:JpsiToMuMuwithDstar_13TeV_2018_GS.root --mc --eventcontent RAWSIM --runUnscheduled --datatier GEN-SIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDstar_13TeV_2018_GEN_cfg.py -n 20 --no_exec
+
+Step 1 (DIGI2RAW)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDstar_13TeV_2018_GS.root --fileout file:JpsiToMuMuwithDstar_13TeV_2018_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL18_106X_upgrade2018_realistic_v11_L1v1-v2/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_upgrade2018_realistic_v11_L1v1 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2018 --python_filename JpsiToMuMuwithDstar_13TeV_2018_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDstar_13TeV_2018_DR.root ../../CMSSW_10_2_16_UL/src
+
+cd ../../CMSSW_10_2_16_UL/src
+
+Step2: (HLT)
+
+Version: CMSSW_10_2_16_UL
+
+cmsDriver.py step4 --filein file:JpsiToMuMuwithDstar_13TeV_2018_DR.root --fileout file:JpsiToMuMuwithDstar_13TeV_2018_HLT.root --mc --eventcontent RAWSIM --datatier GEN-SIM-RAW --conditions 102X_upgrade2018_realistic_v15 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:2018v32 --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDstar_13TeV_2018_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDstar_13TeV_2018_HLT.root ../../CMSSW_10_6_12/src
+
+Step 3: (RECO - AOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDstar_13TeV_2018_HLT.root --fileout file:JpsiToMuMuwithDstar_13TeV_2018_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDstar_13TeV_2018_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDstar_13TeV_2018_RECO.root --fileout file:JpsiToMuMuwithDstar_13TeV_2018_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDstar_13TeV_2018_MiniAOD_cfg.py -n -1 --no_exec
+
+------------------------------------------------------------------------------------------------------------------------------
+
+Fragment: J/Psi + Ds+
+
+---------------------------------------------------- 2016 ----------------------------------------------------
+
+Step 0 (GEN, SIM)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDSPlus_13TeV_cfi.py --fileout file:JpsiToMuMuwithDSPlus_13TeV_2016_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --beamspot Realistic25ns13TeV2016Collision --step GEN,SIM --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDSPlus_13TeV_2016_GS_cfg.py -n 20 --no_exec
+
+Step 1 (DIGI2RAW)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDSPlus_13TeV_2016_GS.root --fileout file:JpsiToMuMuwithDSPlus_13TeV_2016_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL16_106X_mcRun2_asymptotic_v10-v2/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDSPlus_13TeV_2016_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDSPlus_13TeV_2016_DR.root ../../CMSSW_8_0_33_UL/src
+
+cd ../../CMSSW_8_0_33_UL/src/
+
+Step2 : (HLT)
+
+Version: CMSSW_8_0_33_UL
+
+cmsDriver.py --filein file:JpsiToMuMuwithDSPlus_13TeV_2016_DR.root --fileout file:JpsiToMuMuwithDSPlus_13TeV_2016_HLT.root --mc --eventcontent RAWSIM --outputCommand "keep *_mix_*_*,keep *_genPUProtons_*_*" --datatier GEN-SIM-RAW --inputCommands "keep *","drop *_*_BMTF_*","drop *PixelFEDChannel*_*_*_*" --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:25ns15e33_v4 --nThreads 8 --geometry DB:Extended --era Run2_2016 --python_filename JpsiToMuMuwithDSPlus_13TeV_2016_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDSPlus_13TeV_2016_HLT.root ../../CMSSW_10_6_12/src
+
+cd ../../CMSSW_10_6_12/src
+
+Step 3:  (RECO - AOD)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDSPlus_13TeV_2016_HLT.root --fileout file:JpsiToMuMuwithDSPlus_13TeV_2016_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step RAW2DIGI,L1Reco,RECO,RECOSIM --nThreads 8 --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDSPlus_13TeV_2016_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDSPlus_13TeV_2016_RECO.root --fileout file:JpsiToMuMuwithDSPlus_13TeV_2016_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithDSPlus_13TeV_2016_MINIAOD_cfg.py -n -1 --no_exec
+
+---------------------------------------------------- 2017 ----------------------------------------------------
+
+Step 0 (GEM, SIM)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDSPlus_13TeV_cfi.py --fileout file:JpsiToMuMuwithDSPlus_13TeV_2017_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDSPlus_13TeV_2017_GS_cfg.py -n 100000 --no_exec
+
+Version: CMSSW_10_6_12
+
+Step 1 (DIGI2RAW)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDSPlus_13TeV_2017_GS.root --fileout file:JpsiToMuMuwithDSPlus_13TeV_2017_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL17_106X_mc2017_realistic_v6-v1/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mc2017_realistic_v6 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2017 --python_filename JpsiToMuMuwithDSPlus_13TeV_2017_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDSPlus_13TeV_2017_DR.root ../../CMSSW_9_4_14_UL_patch1/src
+
+Step2: (HLT)
+
+Version: CMSSW_9_4_14_UL_patch1 
+
+cmsDriver.py --filein file:JpsiToMuMuwithDSPlus_13TeV_2017_DR.root --fileout file:JpsiToMuMuwithDSPlus_13TeV_2017_HLT.root --mc --eventcontent RAWSIM --datatier GEN-SIM-RAW --conditions 94X_mc2017_realistic_v15 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:2e34v40 --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDSPlus_13TeV_2017_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDSPlus  _13TeV_2017_HLT.root ../../CMSSW_10_6_12/src
+
+Step 3: (RECO - AOD)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py  --filein file:JpsiToMuMuwithDSPlus_13TeV_2017_HLT.root --fileout file:JpsiToMuMuwithDSPlus_13TeV_2017_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_mc2017_realistic_v6 --step RAW2DIGI,L1Reco,RECO,RECOSIM --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDSPlus_13TeV_2017_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDSPlus_13TeV_2017_RECO.root --fileout file:JpsiToMuMuwithDSPlus_13TeV_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_mc2017_realistic_v6 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDSPlus_13TeV_2017_MINIAOD_cfg.py -n -1 --no_exec
+
+
+
+---------------------------------------------------- 2018 ----------------------------------------------------
+
+Step 0 (GEM, SIM)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDSPlus_13TeV_cfi.py --fileout file:JpsiToMuMuwithDSPlus_13TeV_2018_GS.root --mc --eventcontent RAWSIM --runUnscheduled --datatier GEN-SIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDSPlus_13TeV_2018_GEN_cfg.py -n 20 --no_exec
+
+Step 1 (DIGI2RAW)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithDSPlus_13TeV_2018_GS.root --fileout file:JpsiToMuMuwithDSPlus_13TeV_2018_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL18_106X_upgrade2018_realistic_v11_L1v1-v2/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_upgrade2018_realistic_v11_L1v1 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2018 --python_filename JpsiToMuMuwithDSPlus_13TeV_2018_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDSPlus_13TeV_2018_DR.root ../../CMSSW_10_2_16_UL/src
+
+cd ../../CMSSW_10_2_16_UL/src
+
+Step2: (HLT)
+
+Version: CMSSW_10_2_16_UL
+
+cmsDriver.py step4 --filein file:JpsiToMuMuwithDSPlus_13TeV_2018_DR.root --fileout file:JpsiToMuMuwithDSPlus_13TeV_2018_HLT.root --mc --eventcontent RAWSIM --datatier GEN-SIM-RAW --conditions 102X_upgrade2018_realistic_v15 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:2018v32 --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDSPlus_13TeV_2018_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithDSPlus_13TeV_2018_HLT.root ../../CMSSW_10_6_12/src
+
+Step 3: (RECO - AOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDSPlus_13TeV_2018_HLT.root --fileout file:JpsiToMuMuwithDSPlus_13TeV_2018_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDSPlus_13TeV_2018_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithDSPlus_13TeV_2018_RECO.root --fileout file:JpsiToMuMuwithDSPlus_13TeV_2018_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithDSPlus_13TeV_2018_MiniAOD_cfg.py -n -1 --no_exec
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+Fragment: J/Psi + Lambdac+
+
+---------------------------------------------------- 2016 ----------------------------------------------------
+
+Step 0 (GEN, SIM)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithLambdaCPlus_13TeV_cfi.py --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2016_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --beamspot Realistic25ns13TeV2016Collision --step GEN,SIM --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2016_GS_cfg.py -n 20 --no_exec
+
+Step 1 (DIGI2RAW)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithLambdaCPlus_13TeV_2016_GS.root --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2016_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL16_106X_mcRun2_asymptotic_v10-v2/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2016_HIPM --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2016_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithLambdaCPlus_13TeV_2016_DR.root ../../CMSSW_8_0_33_UL/src
+
+cd ../../CMSSW_8_0_33_UL/src/
+
+Step2 : (HLT)
+
+Version: CMSSW_8_0_33_UL
+
+cmsDriver.py --filein file:JpsiToMuMuwithLambdaCPlus_13TeV_2016_DR.root --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2016_HLT.root --mc --eventcontent RAWSIM --outputCommand "keep *_mix_*_*,keep *_genPUProtons_*_*" --datatier GEN-SIM-RAW --inputCommands "keep *","drop *_*_BMTF_*","drop *PixelFEDChannel*_*_*_*" --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:25ns15e33_v4 --nThreads 8 --geometry DB:Extended --era Run2_2016 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2016_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithLambdaCPlus_13TeV_2016_HLT.root ../../CMSSW_10_6_12/src
+
+cd ../../CMSSW_10_6_12/src
+
+Step 3:  (RECO - AOD)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithLambdaCPlus_13TeV_2016_HLT.root --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2016_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step RAW2DIGI,L1Reco,RECO,RECOSIM --nThreads 8 --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2016_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+Version CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithLambdaCPlus_13TeV_2016_RECO.root --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2016_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_mcRun2_asymptotic_preVFP_v8 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2016_HIPM --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2016_MINIAOD_cfg.py -n -1 --no_exec
+
+---------------------------------------------------- 2017 ----------------------------------------------------
+
+Step 0 (GEM, SIM)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithLambdaCPlus_13TeV_cfi.py --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2017_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2017_GS_cfg.py -n 100000 --no_exec
+
+Version: CMSSW_10_6_12
+
+Step 1 (DIGI2RAW)
+
+cmsDriver.py --filein file:JpsiToMuMuwithLambdaCPlus_13TeV_2017_GS.root --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2017_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL17_106X_mc2017_realistic_v6-v1/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mc2017_realistic_v6 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2017 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2017_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithLambdaCPlus_13TeV_2017_DR.root ../../CMSSW_9_4_14_UL_patch1/src
+
+Step2: (HLT)
+
+Version: CMSSW_9_4_14_UL_patch1 
+
+cmsDriver.py --filein file:JpsiToMuMuwithLambdaCPlus_13TeV_2017_DR.root --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2017_HLT.root --mc --eventcontent RAWSIM --datatier GEN-SIM-RAW --conditions 94X_mc2017_realistic_v15 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:2e34v40 --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2017_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithLambdaCPlus  _13TeV_2017_HLT.root ../../CMSSW_10_6_12/src
+
+Step 3: (RECO - AOD)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py  --filein file:JpsiToMuMuwithLambdaCPlus_13TeV_2017_HLT.root --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2017_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_mc2017_realistic_v6 --step RAW2DIGI,L1Reco,RECO,RECOSIM --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2017_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithLambdaCPlus_13TeV_2017_RECO.root --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_mc2017_realistic_v6 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2017_MINIAOD_cfg.py -n -1 --no_exec
+
+
+
+---------------------------------------------------- 2018 ----------------------------------------------------
+
+Step 0 (GEM, SIM)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithLambdaCPlus_13TeV_cfi.py --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2018_GS.root --mc --eventcontent RAWSIM --runUnscheduled --datatier GEN-SIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --beamspot Realistic25ns13TeVEarly2018Collision --step GEN,SIM --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2018_GEN_cfg.py -n 20 --no_exec
+
+Step 1 (DIGI2RAW)
+
+Version: CMSSW_10_6_12
+
+cmsDriver.py --filein file:JpsiToMuMuwithLambdaCPlus_13TeV_2018_GS.root --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2018_DR.root  --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer19ULPrePremix-UL18_106X_upgrade2018_realistic_v11_L1v1-v2/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_upgrade2018_realistic_v11_L1v1 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 8 --geometry DB:Extended --datamix PreMix --era Run2_2018 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2018_DR_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithLambdaCPlus_13TeV_2018_DR.root ../../CMSSW_10_2_16_UL/src
+
+cd ../../CMSSW_10_2_16_UL/src
+
+Step2: (HLT)
+
+Version: CMSSW_10_2_16_UL
+
+cmsDriver.py step4 --filein file:JpsiToMuMuwithLambdaCPlus_13TeV_2018_DR.root --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2018_HLT.root --mc --eventcontent RAWSIM --datatier GEN-SIM-RAW --conditions 102X_upgrade2018_realistic_v15 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:2018v32 --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2018_HLT_cfg.py -n -1 --no_exec
+
+mv JpsiToMuMuwithLambdaCPlus_13TeV_2018_HLT.root ../../CMSSW_10_6_12/src
+
+Step 3: (RECO - AOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithLambdaCPlus_13TeV_2018_HLT.root --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2018_RECO.root --mc --eventcontent AODSIM --runUnscheduled --datatier AODSIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --step RAW2DIGI,L1Reco,RECO,RECOSIM,EI --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2018_RECO_cfg.py -n -1 --no_exec
+
+Step 4: (MiniAOD)
+
+cmsDriver.py --filein file:JpsiToMuMuwithLambdaCPlus_13TeV_2018_RECO.root --fileout file:JpsiToMuMuwithLambdaCPlus_13TeV_2018_MiniAOD.root --mc --eventcontent MINIAODSIM --runUnscheduled --datatier MINIAODSIM --conditions 106X_upgrade2018_realistic_v11_L1v1 --step PAT --nThreads 8 --geometry DB:Extended --era Run2_2018 --python_filename JpsiToMuMuwithLambdaCPlus_13TeV_2018_MiniAOD_cfg.py -n -1 --no_exec
