@@ -19,13 +19,17 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
                          convertPythiaCodes = cms.untracked.bool(False),
                          #user_decay_file = cms.vstring('GeneratorInterface/ExternalDecays/data/Bu_Kstarmumu_Kspi.dec'),
                          #content was dump in the embed string below. This should test this feature.
-                         list_forced_decays = cms.vstring('MyJpsi', 'MyD*+', 'MyD*-'), 
-                         operates_on_particles = cms.vint32(443, 413, -413),
+                         list_forced_decays = cms.vstring('MyJpsi', 'MyD*+', 'MyD*-','MyD0', 'Myanti-D0'), 
+                         operates_on_particles = cms.vint32(443, 413, -413, 421, -421),
                          user_decay_embedded= cms.vstring(
 """
 Alias      MyD*+       D*+
 Alias      MyD*-       D*-
 ChargeConj MyD*+       MyD*-
+
+Alias      MyD0        D0
+Alias      Myanti-D0   anti-D0
+ChargeConj MyD0 Myanti-D0
 
 Alias      MyJpsi      J/psi
 
@@ -34,12 +38,17 @@ Decay MyJpsi
 Enddecay
 
 Decay MyD*+
-  1.000       D0      pi+                        VSS;
+  1.000       MyD0      pi+                        VSS;
 Enddecay
+CDecay MyD*-
 
-Decay MyD*-
-  1.000       anti-D0 pi-                        VSS;
+Decay MyD0
+  1.000        K-      pi+              PHSP;
 Enddecay
+CDecay Myanti-D0
+
+
+
 End
 """
                           ),
@@ -80,17 +89,12 @@ jpsifilter = cms.EDFilter("PythiaFilter",
     MaxEta          = cms.untracked.double(500.)
 )
 
-dstarfilter = cms.EDFilter("MCSingleParticleFilter",
-    ParticleID = cms.untracked.vint32(413, -413),
-    MinPt           = cms.untracked.vdouble(0., 0.),
-    MinEta          = cms.untracked.vdouble(-500., -500.),
-    MaxEta          = cms.untracked.vdouble(500., 500.)
-)
 
 mumufilter = cms.EDFilter("MCParticlePairFilter",
     Status = cms.untracked.vint32(1, 1),
     MinP = cms.untracked.vdouble(2.7, 2.7),
-    MinPt = cms.untracked.vdouble(0.5, 0.5),
+    MinPt = cms.untracked.vdouble(0.1, 0.1),
+    MaxPt = cms.untracked.vdouble(200, 200),
     MaxEta = cms.untracked.vdouble(2.5, 2.5),
     MinEta = cms.untracked.vdouble(-2.5, -2.5),
     ParticleCharge = cms.untracked.int32(-1),
@@ -98,4 +102,19 @@ mumufilter = cms.EDFilter("MCParticlePairFilter",
     ParticleID2 = cms.untracked.vint32(13)
 )
 
-ProductionFilterSequence = cms.Sequence(generator*jpsifilter*dstarfilter*mumufilter)
+# New test
+
+DstarFilter = cms.EDFilter("PythiaMomDauFilter",
+    ParticleID = cms.untracked.int32(413),
+    DaughterID = cms.untracked.int32(421),
+    ChargeConjugation = cms.untracked.bool(True),
+    MinEta = cms.untracked.double(-500.),
+    MaxEta = cms.untracked.double(500.),
+    DaughterIDs = cms.untracked.vint32(421,211),
+    NumberDaughters = cms.untracked.int32(2),
+    NumberDescendants = cms.untracked.int32(2),
+    DescendantsIDs = cms.untracked.vint32(-321,211)
+)
+
+
+ProductionFilterSequence = cms.Sequence(generator*jpsifilter*mumufilter*DstarFilter)
