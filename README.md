@@ -1,6 +1,8 @@
-# MC Onia + Open Charm
+# Monte Carlo Quarkonia + Open Charm
 
-Repository for Private MC generation for Onia + Open Charm Analysis (in construction).
+Repository for Private MC generation for Quarkonia + Open Charm Analysis. Here, you will find the following DPS channels,
+* J/Psi + D0, J/Psi + D*, J/Psi + D+, J/Psi + Ds+, J/Psi + Lambdac+
+* Psi(2S) + D0, Psi(2S) + D*, Psi(2S) + D+, Psi(2S) + Ds+, Psi(2S) + Lambdac+ (To be updated)
 
 ## Setting the environment:
 
@@ -11,7 +13,7 @@ cmsrel CMSSW_10_6_12
 cd CMSSW_10_6_12/src
 cmsenv
 
-git clone git@github.com:kevimota/OniaOpenCharmRun2ULMC.git .
+git clone git@github.com:mapse/OniaOpenCharmRun2ULMC.git .
 
 scram b
 ```
@@ -21,14 +23,9 @@ scram b
 ### Data 2017
 
 * GEN,SIM step:
-Dzero:
+Ex with J/Psi + Dzero:
 ```
-cmsDriver.py Configuration/GenProduction/python/UpsilonToMuMuDzero_13TeV_cfi.py --fileout file:UpsilonToMuMuDzero_13TeV_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDzero13TeV_GS_cfg.py -n 5000  --no_exec
-```
-
-Dplus:
-```
-cmsDriver.py Configuration/GenProduction/python/UpsilonToMuMuDplus_13TeV_cfi.py --fileout file:UpsilonToMuMuDplus_13TeV_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename UpsilonToMuMuDplus13TeV_GS_cfg.py -n 5000  --no_exec
+cmsDriver.py Configuration/GenProduction/python/JpsiToMuMuwithDzero_13TeV_cfi.py --fileout file:JpsiToMuMuwithDzero_13TeV_GS.root --mc --eventcontent RAWSIM --datatier GEN-SIM --conditions 106X_mc2017_realistic_v7 --beamspot Realistic25ns13TeVEarly2017Collision --step GEN,SIM --geometry DB:Extended --era Run2_2017 --python_filename JpsiToMuMuwithDZero_13TeV_GS.py -n 5000  --no_exec
 ```
 
 #### To update:
@@ -60,3 +57,25 @@ cmsDriver.py step7 --filein file:MiniAOD.root --fileout file:NanoAOD.root --mc -
 (To create private flat ntuple, please use `--eventcontent NANOAODSIM --datatier NANOAODSIM --customise_commands="process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)))"`)
 
 more informations: https://twiki.cern.ch/twiki/bin/view/CMS/PdmVLegacy2017Analysis#
+
+* Gen-Sim quick analysis
+
+We have developted a way to simulate the generator level (GEN,SIM step) in order to use it to validade the consistency of the Monte Carlo (See filter efficiency, cross section, etc). We need two files to work on this:
+
+
+```
+mcConfig.sh
+```
+
+and
+
+```
+genSim.sh
+
+The first is used as a configuration file, in which you should select the channel of interest and the quantity of events to be simulated. The second is where the fragments are simulated. To run, all you have to do is configurate the mcConfig.sh with your channels and quantity of events and then run the genSim.sh with the following command: 
+
+```
+. genSim.sh
+```
+
+After this, you will be caplable to see the main results at the generation level and will generate a .root file with all the parameters of interest. With the help of this .root file you can see the ParticleDrawerList (see this repo to run on it: TO BE UPDATED), in which you can see the list of all generate particles, as well as their ID, status, mothers, daughters,  pt, eta, phi, momentum, mass and the vertex localization (This is important for this study, as we require DPS)
