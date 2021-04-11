@@ -1,6 +1,3 @@
-#CMSW path: /afs/cern.ch/work/m/mabarros/CMSSW_10_2_15_patch1/src/Configuration/GenProduction/python
-
-
 import FWCore.ParameterSet.Config as cms
 from Configuration.Generator.Pythia8CommonSettings_cfi import *
 from Configuration.Generator.Pythia8CUEP8M1Settings_cfi import * # Underlying Event(UE) 
@@ -17,36 +14,19 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
                          decay_table = cms.string('GeneratorInterface/EvtGenInterface/data/DECAY_2014_NOLONGLIFE.DEC'),
                          particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014.pdl'),
                          convertPythiaCodes = cms.untracked.bool(False),
-                         #user_decay_file = cms.vstring('GeneratorInterface/ExternalDecays/data/Bu_Kstarmumu_Kspi.dec'),
-                         #content was dump in the embed string below. This should test this feature.
-                         list_forced_decays = cms.vstring('MyJpsi', 'MyD*+', 'MyD*-','MyD0', 'Myanti-D0'), 
+                         list_forced_decays = cms.vstring('MyD0', 'Myanti-D0'), 
                          operates_on_particles = cms.vint32(443, 413, -413, 421, -421),
                          user_decay_embedded= cms.vstring(
 """
-Alias      MyD*+       D*+
-Alias      MyD*-       D*-
-ChargeConj MyD*+       MyD*-
 
 Alias      MyD0        D0
 Alias      Myanti-D0   anti-D0
 ChargeConj MyD0 Myanti-D0
 
-Alias      MyJpsi      J/psi
-
-Decay MyJpsi
-  1.000        mu+     mu-       PHOTOS   VLL;
-Enddecay
-
-Decay MyD*+
-  1.000       MyD0      pi+                        VSS;
-Enddecay
-CDecay MyD*-
-
 Decay MyD0
   1.000        K-      pi+              PHSP;
 Enddecay
 CDecay Myanti-D0
-
 
 
 End
@@ -60,12 +40,12 @@ End
         pythia8CUEP8M1SettingsBlock,
         processParameters = cms.vstring(
             'Main:timesAllowErrors = 10000',  
-            'HardQCD:hardccbar = on',
+            'HardQCD:hardccbar = on', # Sum of gg -> ccbar with qqbar ->ccbar
             'HardQCD:gg2gg = on',
+            'HardQCD:qg2qg = on',
             'PartonLevel:MPI = on',
             'SecondHard:Charmonium = on',
             'SecondHard:generate = on',
-            #'StringFlav:mesonCvector = 1.4',
             'PhaseSpace:pTHatMin = 4.0',
             'PhaseSpace:pTHatMinSecond = 4.0',
             'PhaseSpace:pTHatMinDiverge = 0.4',
@@ -89,7 +69,7 @@ jpsifilter = cms.EDFilter("PythiaFilter",
     MaxEta          = cms.untracked.double(500.)
 )
 
-
+# Dimuon filter
 mumufilter = cms.EDFilter("MCParticlePairFilter",
     Status = cms.untracked.vint32(1, 1),
     MinP = cms.untracked.vdouble(2.7, 2.7),
@@ -102,7 +82,7 @@ mumufilter = cms.EDFilter("MCParticlePairFilter",
     ParticleID2 = cms.untracked.vint32(13)
 )
 
-# New test
+# Filter for D* -> D0(kaonPion) pionslow 
 
 DstarFilter = cms.EDFilter("PythiaMomDauFilter",
     ParticleID = cms.untracked.int32(413),
@@ -115,6 +95,5 @@ DstarFilter = cms.EDFilter("PythiaMomDauFilter",
     NumberDescendants = cms.untracked.int32(2),
     DescendantsIDs = cms.untracked.vint32(-321,211)
 )
-
 
 ProductionFilterSequence = cms.Sequence(generator*jpsifilter*mumufilter*DstarFilter)

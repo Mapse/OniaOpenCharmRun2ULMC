@@ -1,6 +1,3 @@
-#CMSW path: /afs/cern.ch/work/m/mabarros/CMSSW_10_2_15_patch1/src/Configuration/GenProduction/python
-
-
 import FWCore.ParameterSet.Config as cms
 from Configuration.Generator.Pythia8CommonSettings_cfi import *
 from Configuration.Generator.Pythia8CUEP8M1Settings_cfi import * # Underlying Event(UE) 
@@ -17,21 +14,13 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
                          decay_table = cms.string('GeneratorInterface/EvtGenInterface/data/DECAY_2014_NOLONGLIFE.DEC'),
                          particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014.pdl'),
                          convertPythiaCodes = cms.untracked.bool(False),
-                         #user_decay_file = cms.vstring('GeneratorInterface/ExternalDecays/data/Bu_Kstarmumu_Kspi.dec'),
-                         #content was dump in the embed string below. This should test this feature.
-                         list_forced_decays = cms.vstring('MyJpsi', 'MyLambda_c+', 'MyAnti-Lambda_c-'), 
+                         list_forced_decays = cms.vstring('MyLambda_c+', 'MyAnti-Lambda_c-'), 
                          operates_on_particles = cms.vint32(443, 4122, -4122),
                          user_decay_embedded= cms.vstring(
 """
 Alias      MyLambda_c+      Lambda_c+
 Alias      MyAnti-Lambda_c-      anti-Lambda_c-
 ChargeConj MyLambda_c+      MyAnti-Lambda_c- 
-
-Alias      MyJpsi      J/psi
-
-Decay MyJpsi
-  1.000        mu+     mu-       PHOTOS   VLL;
-Enddecay
 
 Decay MyLambda_c+
   1.000        p+      K-      pi+     PHSP;
@@ -54,7 +43,6 @@ End
             'PartonLevel:MPI = on',
             'SecondHard:Charmonium = on',
             'SecondHard:generate = on',
-            #'StringFlav:mesonCvector = 1.4',
             'PhaseSpace:pTHatMin = 4.0',
             'PhaseSpace:pTHatMinSecond = 4.0',
             'PhaseSpace:pTHatMinDiverge = 0.4',

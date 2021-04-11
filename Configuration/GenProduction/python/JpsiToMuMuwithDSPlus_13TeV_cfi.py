@@ -17,21 +17,13 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
                          decay_table = cms.string('GeneratorInterface/EvtGenInterface/data/DECAY_2014_NOLONGLIFE.DEC'),
                          particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014.pdl'),
                          convertPythiaCodes = cms.untracked.bool(False),
-                         #user_decay_file = cms.vstring('GeneratorInterface/ExternalDecays/data/Bu_Kstarmumu_Kspi.dec'),
-                         #content was dump in the embed string below. This should test this feature.
-                         list_forced_decays = cms.vstring('MyJpsi', 'MyD_s+', 'MyD_s-'), 
+                         list_forced_decays = cms.vstring('MyD_s+', 'MyD_s-'), 
                          operates_on_particles = cms.vint32(443, 431, -431),
                          user_decay_embedded= cms.vstring(
 """
 Alias      MyD_s+      D_s+
 Alias      MyD_s-      D_s-
 ChargeConj MyD_s+      MyD_s-
-
-Alias      MyJpsi      J/psi
-
-Decay MyJpsi
-  1.000        mu+     mu-       PHOTOS   VLL;
-Enddecay
 
 Decay MyD_s+
   1.000        K+      K-      pi+     PHSP;
@@ -54,7 +46,6 @@ End
             'PartonLevel:MPI = on',
             'SecondHard:Charmonium = on',
             'SecondHard:generate = on',
-            #'StringFlav:mesonCvector = 1.4',
             'PhaseSpace:pTHatMin = 4.0',
             'PhaseSpace:pTHatMinSecond = 4.0',
             'PhaseSpace:pTHatMinDiverge = 0.4',
@@ -77,7 +68,6 @@ jpsifilter = cms.EDFilter("PythiaFilter",
     MinEta          = cms.untracked.double(-500.),
     MaxEta          = cms.untracked.double(500.)
 )
-
 
 dSPlusfilter = cms.EDFilter("MCSingleParticleFilter",
     ParticleID = cms.untracked.vint32(431, -431),

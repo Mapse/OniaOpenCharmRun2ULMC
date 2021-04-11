@@ -1,5 +1,12 @@
-#CMSW path: /afs/cern.ch/work/m/mabarros/CMSSW_10_2_15_patch1/src/Configuration/GenProduction/python
+## Final datacard for producing J/Psi + D0 at same vertex
 
+# Remember that EvtGen will force the decay of only one particle per event.
+
+# No need to decay J/psi with EvtGen because we have a good u⁺u⁻ filter.
+
+# Caveats: 
+# Very few events in which we can see two D0/anti-D0 in the same vertex decaying into the required tracks
+# Very few events in which we can not see DPS.
 
 import FWCore.ParameterSet.Config as cms
 from Configuration.Generator.Pythia8CommonSettings_cfi import *
@@ -17,21 +24,14 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
                          decay_table = cms.string('GeneratorInterface/EvtGenInterface/data/DECAY_2014_NOLONGLIFE.DEC'),
                          particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014.pdl'),
                          convertPythiaCodes = cms.untracked.bool(False),
-                         #user_decay_file = cms.vstring('GeneratorInterface/ExternalDecays/data/Bu_Kstarmumu_Kspi.dec'),
-                         #content was dump in the embed string below. This should test this feature.
-                         list_forced_decays = cms.vstring('MyJpsi','MyD0', 'Myanti-D0'), 
+                         list_forced_decays = cms.vstring('MyD0', 'Myanti-D0'), 
                          operates_on_particles = cms.vint32(443, 421, -421),
                          user_decay_embedded= cms.vstring(
 """
+
 Alias      MyD0        D0
 Alias      Myanti-D0   anti-D0
 ChargeConj MyD0 Myanti-D0
-
-Alias      MyJpsi      J/psi
-
-Decay MyJpsi
-  1.000        mu+     mu-       PHOTOS   VLL;
-Enddecay
 
 Decay MyD0
   1.000        K-      pi+              PHSP;
@@ -39,6 +39,7 @@ Enddecay
 CDecay Myanti-D0
 
 End
+
 """
                           ),
                 ),
@@ -49,12 +50,11 @@ End
         pythia8CUEP8M1SettingsBlock,
         processParameters = cms.vstring(
             'Main:timesAllowErrors = 10000',  
-	          'HardQCD:hardccbar = on',
+	        'HardQCD:hardccbar = on',
             'HardQCD:gg2gg = on',
             'PartonLevel:MPI = on',
             'SecondHard:Charmonium = on',
             'SecondHard:generate = on',
-            ##'StringFlav:mesonCvector = 1.4',
             'PhaseSpace:pTHatMin = 4.0',
             'PhaseSpace:pTHatMinSecond = 4.0',
             'PhaseSpace:pTHatMinDiverge = 0.4',
