@@ -71,6 +71,7 @@ and
 
 ```
 genSim.sh
+```
 
 The first is used as a configuration file, in which you should select the channel of interest and the quantity of events to be simulated. The second is where the fragments are simulated. To run, all you have to do is configurate the mcConfig.sh with your channels and quantity of events and then run the genSim.sh with the following command: 
 
