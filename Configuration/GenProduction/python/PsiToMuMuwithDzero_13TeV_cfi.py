@@ -15,7 +15,7 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
                          particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014.pdl'),
                          convertPythiaCodes = cms.untracked.bool(False),
                          list_forced_decays = cms.vstring('MyD0', 'Myanti-D0'), 
-                         operates_on_particles = cms.vint32(443, 421, -421),
+                         operates_on_particles = cms.vint32(100443, 421, -421),
                          user_decay_embedded= cms.vstring(
 """
 
@@ -61,9 +61,9 @@ generator.PythiaParameters.processParameters.extend(EvtGenExtraParticles)
 ###########
 # Filters #
 ###########
-# Filter only pp events which produce JPsi
-jpsifilter = cms.EDFilter("PythiaFilter", 
-    ParticleID = cms.untracked.int32(443),
+# Filter only pp events which produce Psi
+psifilter = cms.EDFilter("PythiaDauFilter", 
+    ParticleID = cms.untracked.int32(100443),
     MinPt           = cms.untracked.double(0.0),
     MinEta          = cms.untracked.double(-500.),
     MaxEta          = cms.untracked.double(500.)
@@ -80,6 +80,8 @@ mumufilter = cms.EDFilter("MCParticlePairFilter",
     Status = cms.untracked.vint32(1, 1),
     MinP = cms.untracked.vdouble(2.7, 2.7),
     MinPt = cms.untracked.vdouble(0.5, 0.5),
+    minInvMass = cms.untracked.double(3.60),
+    maxInvMass = cms.untracked.double(3.77),
     MaxEta = cms.untracked.vdouble(2.5, 2.5),
     MinEta = cms.untracked.vdouble(-2.5, -2.5),
     ParticleCharge = cms.untracked.int32(-1),
@@ -87,4 +89,4 @@ mumufilter = cms.EDFilter("MCParticlePairFilter",
     ParticleID2 = cms.untracked.vint32(13)
 )
 
-ProductionFilterSequence = cms.Sequence(generator*jpsifilter*dzerofilter*mumufilter)
+ProductionFilterSequence = cms.Sequence(generator*psifilter*dzerofilter*mumufilter)

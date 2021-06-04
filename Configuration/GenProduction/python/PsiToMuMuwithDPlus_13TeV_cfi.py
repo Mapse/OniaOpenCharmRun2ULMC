@@ -1,3 +1,6 @@
+#CMSW path: /afs/cern.ch/work/m/mabarros/CMSSW_10_2_15_patch1/src/Configuration/GenProduction/python
+
+
 import FWCore.ParameterSet.Config as cms
 from Configuration.Generator.Pythia8CommonSettings_cfi import *
 from Configuration.Generator.Pythia8CUEP8M1Settings_cfi import * # Underlying Event(UE) 
@@ -14,22 +17,22 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
                          decay_table = cms.string('GeneratorInterface/EvtGenInterface/data/DECAY_2014_NOLONGLIFE.DEC'),
                          particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014.pdl'),
                          convertPythiaCodes = cms.untracked.bool(False),
-                         list_forced_decays = cms.vstring('MyD0', 'Myanti-D0'), 
-                         operates_on_particles = cms.vint32(443, 421, -421),
+                         #user_decay_file = cms.vstring('GeneratorInterface/ExternalDecays/data/Bu_Kstarmumu_Kspi.dec'),
+                         #content was dump in the embed string below. This should test this feature.
+                         list_forced_decays = cms.vstring('MyD+', 'MyD-'), 
+                         operates_on_particles = cms.vint32(100443, 411, -411),
                          user_decay_embedded= cms.vstring(
 """
+Alias      MyD+        D+
+Alias      MyD-        D-
+ChargeConj MyD+        MyD-
 
-Alias      MyD0        D0
-Alias      Myanti-D0   anti-D0
-ChargeConj MyD0 Myanti-D0
-
-Decay MyD0
-  1.000        K-      pi+              PHSP;
+Decay MyD+
+  1.000        K-      pi+      pi+     D_DALITZ;
 Enddecay
-CDecay Myanti-D0
+CDecay MyD-
 
 End
-
 """
                           ),
                 ),
@@ -40,7 +43,7 @@ End
         pythia8CUEP8M1SettingsBlock,
         processParameters = cms.vstring(
             'Main:timesAllowErrors = 10000',  
-	        'HardQCD:hardccbar = on',
+            'HardQCD:hardccbar = on',
             'HardQCD:gg2gg = on',
             'PartonLevel:MPI = on',
             'SecondHard:Charmonium = on',
@@ -57,20 +60,19 @@ End
                          )
 
 generator.PythiaParameters.processParameters.extend(EvtGenExtraParticles)
-
 ###########
 # Filters #
 ###########
 # Filter only pp events which produce JPsi
-jpsifilter = cms.EDFilter("PythiaFilter", 
-    ParticleID = cms.untracked.int32(443),
+psifilter = cms.EDFilter("PythiaFilter", 
+    ParticleID = cms.untracked.int32(100443),
     MinPt           = cms.untracked.double(0.0),
     MinEta          = cms.untracked.double(-500.),
     MaxEta          = cms.untracked.double(500.)
 )
 
-dzerofilter = cms.EDFilter("MCSingleParticleFilter",
-    ParticleID = cms.untracked.vint32(421, -421),
+dPlusfilter = cms.EDFilter("MCSingleParticleFilter",
+    ParticleID = cms.untracked.vint32(411, -411),
     MinPt           = cms.untracked.vdouble(0., 0.),
     MinEta          = cms.untracked.vdouble(-500., -500.),
     MaxEta          = cms.untracked.vdouble(500., 500.)
@@ -87,4 +89,4 @@ mumufilter = cms.EDFilter("MCParticlePairFilter",
     ParticleID2 = cms.untracked.vint32(13)
 )
 
-ProductionFilterSequence = cms.Sequence(generator*jpsifilter*dzerofilter*mumufilter)
+ProductionFilterSequence = cms.Sequence(generator*psifilter*dPlusfilter*mumufilter)
