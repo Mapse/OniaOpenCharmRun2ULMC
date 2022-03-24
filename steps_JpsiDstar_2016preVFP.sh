@@ -37,7 +37,7 @@ cmsDriver.py $path_gs --fileout file:$root_gs --mc --eventcontent RAWSIM --runUn
 cmsRun -e -j $REPORT_NAME $py_gs
 
 # Cmsdriver for DR step - with pileup
-cmsDriver.py --filein file:$root_gs --fileout file:$root_dr --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer20ULPrePremix-UL16_106X_mcRun2_asymptotic_v10-v2/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mcRun2_asymptotic_preVFP_v9 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 1 --geometry DB:Extended --datamix PreMix --era Run2_2016_HIPM --python_filename $py_dr -n 1 --no_exec
+cmsDriver.py --filein file:$root_gs --fileout file:$root_dr --pileup_input "dbs:/Neutrino_E-10_gun/RunIISummer20ULPrePremix-UL16_106X_mcRun2_asymptotic_v13-v1/PREMIX" --mc --eventcontent PREMIXRAW --runUnscheduled --datatier GEN-SIM-DIGI --conditions 106X_mcRun2_asymptotic_preVFP_v9 --step DIGI,DATAMIX,L1,DIGI2RAW --procModifiers premix_stage2 --nThreads 1 --geometry DB:Extended --datamix PreMix --era Run2_2016_HIPM --python_filename $py_dr -n 1 --no_exec
 
 cmsRun $py_dr
 
@@ -48,6 +48,7 @@ cmsenv
 # Cmsdriver for HLT step
 cmsDriver.py --filein file:$root_dr --fileout file:$root_hlt --mc --eventcontent RAWSIM  --outputCommand "keep *_mix_*_*,keep *_genPUProtons_*_*" --datatier GEN-SIM-RAW --inputCommands "keep *","drop *_*_BMTF_*","drop *PixelFEDChannel*_*_*_*" --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 --customise_commands 'process.source.bypassVersionCheck = cms.untracked.bool(True)' --step HLT:25ns15e33_v4 --nThreads 1 --geometry DB:Extended --era Run2_2016 --python_filename $py_hlt -n 1 —no_exec
 
+# Commentd: Line five contain a Non-ASCII charactere!!!
 cmsRun $py_hlt
 
 cp $root_hlt ../../../CMSSW_10_6_20/src/ && cd ../../../CMSSW_10_6_20/src/
