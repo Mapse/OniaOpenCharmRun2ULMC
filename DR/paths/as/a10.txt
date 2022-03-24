@@ -1,0 +1,1 @@
+root://transfer-7.ultralight.org:1094//store/group/uerj/mabarros/CRAB_PrivateMC_RunII_UL_2017/Jpsi/220316_011129/0010/Jpsi_Dstar_new_accept_cuts_13TeV_GS_10000.root
