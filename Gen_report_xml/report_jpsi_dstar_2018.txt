@@ -1,0 +1,68 @@
+####### Dstar and Jpsi no pt restrictions #######
+
+
+------------------------------------
+GenXsecAnalyzer:
+------------------------------------
+Before Filter: total cross section = 3.536e+08 +- 1.581e+06 pb
+
+After filter: final cross section = 3.536e+08 +- 1.581e+06 pb
+After filter: final fraction of events with negative weights = 0.000e+00 +- 0.000e+00
+After filter: final equivalent lumi for 1M events (1/fb) = 2.828e-06 +- 1.296e-08
+TimeReport> Time report complete in 2012.01 seconds
+ Time Summary: 
+ - Min event:   0.00147104
+ - Max event:   30.6058
+ - Avg event:   0.0190086
+ - Total loop:  1998.32
+ - Total init:  12.03
+ - Total job:   2012.01
+ - EventSetup Lock:   1.97887e-05
+ - EventSetup Get:   13.4484
+ Event Throughput: 50.042 ev/s
+ CPU Summary: 
+ - Total loop:  1982.66
+ - Total init:  6.46863
+ - Total extra: 0
+ - Total job:   1990.14
+ Processing Summary: 
+ - Number of Events:  100000
+ - Number of Global Begin Lumi Calls:  1
+ - Number of Global Begin Run Calls: 1
+
+
+=============================================
+
+####### Dstar 7 < pT < 15 GeV and Jpsi no pt restrictions #######
+
+------------------------------------
+GenXsecAnalyzer:
+------------------------------------
+Before Filter: total cross section = 3.535e+08 +- 5.975e+05 pb
+
+After filter: final cross section = 3.535e+08 +- 5.975e+05 pb
+After filter: final fraction of events with negative weights = 0.000e+00 +- 0.000e+00
+After filter: final equivalent lumi for 1M events (1/fb) = 2.829e-06 +- 5.556e-09
+TimeReport> Time report complete in 12410.1 seconds
+ Time Summary: 
+ - Min event:   0.00130391
+ - Max event:   0.7961
+ - Avg event:   0.0171503
+ - Total loop:  12396.4
+ - Total init:  11.5586
+ - Total job:   12410.1
+ - EventSetup Lock:   1.71661e-05
+ - EventSetup Get:   12.893
+ Event Throughput: 56.4681 ev/s
+ CPU Summary: 
+ - Total loop:  12348.5
+ - Total init:  6.51115
+ - Total extra: 0
+ - Total job:   12356.2
+ Processing Summary: 
+ - Number of Events:  700000
+ - Number of Global Begin Lumi Calls:  1
+ - Number of Global Begin Run Calls: 1
+
+
+=============================================
