@@ -46,9 +46,9 @@ End
             'PartonLevel:MPI = on',
             'SecondHard:Charmonium = on',
             'SecondHard:generate = on',
-            'PhaseSpace:pTHatMin = 4.0',
+            'PhaseSpace:pTHatMin = 10.0',
             'PhaseSpace:pTHatMinSecond = 4.0',
-            'PhaseSpace:pTHatMinDiverge = 0.4',
+            'PhaseSpace:pTHatMinDiverge = 0.5',
             ),
         parameterSets = cms.vstring('pythia8CommonSettings',
                                     'pythia8CUEP8M1Settings',
@@ -64,17 +64,18 @@ generator.PythiaParameters.processParameters.extend(EvtGenExtraParticles)
 # Filter only pp events which produce JPsi
 jpsifilter = cms.EDFilter("PythiaFilter", 
     ParticleID = cms.untracked.int32(443),
-    MinPt           = cms.untracked.double(0.0),
-    MinEta          = cms.untracked.double(-500.),
-    MaxEta          = cms.untracked.double(500.)
+    MinPt           = cms.untracked.double(15.0),
+    MaxPt           = cms.untracked.double(150.0),
+    MinEta          = cms.untracked.double(-2.5),
+    MaxEta          = cms.untracked.double(2.5)
 )
 
 # Dimuon filter
 mumufilter = cms.EDFilter("MCParticlePairFilter",
     Status = cms.untracked.vint32(1, 1),
     MinP = cms.untracked.vdouble(2.7, 2.7),
-    MinPt = cms.untracked.vdouble(0.1, 0.1),
-    MaxPt = cms.untracked.vdouble(200, 200),
+    MinPt = cms.untracked.vdouble(2.0, 2.0),
+    MaxPt = cms.untracked.vdouble(150.0, 150.0),
     MaxEta = cms.untracked.vdouble(2.5, 2.5),
     MinEta = cms.untracked.vdouble(-2.5, -2.5),
     ParticleCharge = cms.untracked.int32(-1),
@@ -88,8 +89,14 @@ DstarFilter = cms.EDFilter("PythiaMomDauFilter",
     ParticleID = cms.untracked.int32(413),
     DaughterID = cms.untracked.int32(421),
     ChargeConjugation = cms.untracked.bool(True),
-    MinEta = cms.untracked.double(-500.),
-    MaxEta = cms.untracked.double(500.),
+    MomMinPt = cms.untracked.double(2.0), # Dstar pT cut
+    MomMaxPt = cms.untracked.double(150.0),
+    MomMinEta = cms.untracked.double(-2.5), # Dstar eta
+    MomMaxEta = cms.untracked.double(2.5),
+    MinPt = cms.untracked.double(0.0), # Daugthers pT
+    MaxPt = cms.untracked.double(150.0),
+    MinEta = cms.untracked.double(-2.5),
+    MaxEta = cms.untracked.double(2.5),
     DaughterIDs = cms.untracked.vint32(421,211),
     NumberDaughters = cms.untracked.int32(2),
     NumberDescendants = cms.untracked.int32(2),
@@ -97,3 +104,4 @@ DstarFilter = cms.EDFilter("PythiaMomDauFilter",
 )
 
 ProductionFilterSequence = cms.Sequence(generator*jpsifilter*mumufilter*DstarFilter)
+#ProductionFilterSequence = cms.Sequence(generator*DstarFilter)

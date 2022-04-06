@@ -46,7 +46,7 @@ End
             'PartonLevel:MPI = on',
             'SecondHard:Charmonium = on',
             'SecondHard:generate = on',
-            'PhaseSpace:pTHatMin = 4.0',
+            'PhaseSpace:pTHatMin = 10.0',
             'PhaseSpace:pTHatMinSecond = 4.0',
             'PhaseSpace:pTHatMinDiverge = 0.5',
             ),
@@ -64,22 +64,20 @@ generator.PythiaParameters.processParameters.extend(EvtGenExtraParticles)
 # Filter only pp events which produce JPsi
 jpsifilter = cms.EDFilter("PythiaFilter", 
     ParticleID = cms.untracked.int32(443),
-    MinPt           = cms.untracked.double(8.0),
-    MaxPt           = cms.untracked.double(100.0),
-    MinEta          = cms.untracked.double(-2.4),
-    MaxEta          = cms.untracked.double(2.4)
+    MinPt           = cms.untracked.double(19.5),
+    MaxPt           = cms.untracked.double(25.5),
+    MinEta          = cms.untracked.double(-2.5),
+    MaxEta          = cms.untracked.double(2.5)
 )
 
 # Dimuon filter
 mumufilter = cms.EDFilter("MCParticlePairFilter",
     Status = cms.untracked.vint32(1, 1),
     MinP = cms.untracked.vdouble(2.7, 2.7),
-    MinPt = cms.untracked.vdouble(3.0, 3.0), #(2.0, 2.0),
+    MinPt = cms.untracked.vdouble(2.0, 2.0),
     MaxPt = cms.untracked.vdouble(100, 100),
     MaxEta = cms.untracked.vdouble(2.4, 2.4),
-    MinEta = cms.untracked.vdouble(-2.4, -2.4   ),
-    minInvMass = cms.untracked.double(2.8),
-    maxInvMass = cms.untracked.double(3.3),
+    MinEta = cms.untracked.vdouble(-2.4, -2.4),
     ParticleCharge = cms.untracked.int32(-1),
     ParticleID1 = cms.untracked.vint32(13),
     ParticleID2 = cms.untracked.vint32(13)
@@ -92,15 +90,15 @@ mumufilter = cms.EDFilter("MCParticlePairFilter",
 
 DstarFilter = cms.EDFilter("PythiaMomDauFilter",
     ChargeConjugation = cms.untracked.bool(True),
-    MomMinPt = cms.untracked.double(5.0), #2.0)
+    MomMinPt = cms.untracked.double(1.5),
     MomMaxPt = cms.untracked.double(100.0),
-    MomMinEta = cms.untracked.double(-2.4), # Dstar eta
-    MomMaxEta = cms.untracked.double(2.4),
+    MomMinEta = cms.untracked.double(-2.5), # Dstar eta
+    MomMaxEta = cms.untracked.double(2.5),
     DaughterID = cms.untracked.int32(421),
     DaughterIDs = cms.untracked.vint32(421, 211),
     DescendantsIDs = cms.untracked.vint32(-321, 211),
-    MaxEta = cms.untracked.double(2.4),
-    MinEta = cms.untracked.double(-2.4),
+    MaxEta = cms.untracked.double(2.5),
+    MinEta = cms.untracked.double(-2.5),
     MinPt = cms.untracked.double(0.2),
     NumberDaughters = cms.untracked.int32(2),
     NumberDescendants = cms.untracked.int32(2),

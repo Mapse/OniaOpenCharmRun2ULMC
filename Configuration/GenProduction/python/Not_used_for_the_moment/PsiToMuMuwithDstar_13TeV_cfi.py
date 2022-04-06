@@ -15,7 +15,7 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
                          particle_property_file = cms.FileInPath('GeneratorInterface/EvtGenInterface/data/evt_2014.pdl'),
                          convertPythiaCodes = cms.untracked.bool(False),
                          list_forced_decays = cms.vstring('MyD0', 'Myanti-D0'), 
-                         operates_on_particles = cms.vint32(443, 413, -413, 421, -421),
+                         operates_on_particles = cms.vint32(10043, 413, -413, 421, -421),
                          user_decay_embedded= cms.vstring(
 """
 
@@ -48,7 +48,7 @@ End
             'SecondHard:generate = on',
             'PhaseSpace:pTHatMin = 4.0',
             'PhaseSpace:pTHatMinSecond = 4.0',
-            'PhaseSpace:pTHatMinDiverge = 0.5',
+            'PhaseSpace:pTHatMinDiverge = 0.4',
             ),
         parameterSets = cms.vstring('pythia8CommonSettings',
                                     'pythia8CUEP8M1Settings',
@@ -62,24 +62,21 @@ generator.PythiaParameters.processParameters.extend(EvtGenExtraParticles)
 # Filters #
 ###########
 # Filter only pp events which produce JPsi
-jpsifilter = cms.EDFilter("PythiaFilter", 
-    ParticleID = cms.untracked.int32(443),
-    MinPt           = cms.untracked.double(8.0),
-    MaxPt           = cms.untracked.double(100.0),
-    MinEta          = cms.untracked.double(-2.4),
-    MaxEta          = cms.untracked.double(2.4)
+psifilter = cms.EDFilter("PythiaFilter", 
+    ParticleID = cms.untracked.int32(10043),
+    MinPt           = cms.untracked.double(0.0),
+    MinEta          = cms.untracked.double(-500.),
+    MaxEta          = cms.untracked.double(500.)
 )
 
 # Dimuon filter
 mumufilter = cms.EDFilter("MCParticlePairFilter",
     Status = cms.untracked.vint32(1, 1),
     MinP = cms.untracked.vdouble(2.7, 2.7),
-    MinPt = cms.untracked.vdouble(3.0, 3.0), #(2.0, 2.0),
-    MaxPt = cms.untracked.vdouble(100, 100),
-    MaxEta = cms.untracked.vdouble(2.4, 2.4),
-    MinEta = cms.untracked.vdouble(-2.4, -2.4   ),
-    minInvMass = cms.untracked.double(2.8),
-    maxInvMass = cms.untracked.double(3.3),
+    MinPt = cms.untracked.vdouble(0.1, 0.1),
+    MaxPt = cms.untracked.vdouble(200, 200),
+    MaxEta = cms.untracked.vdouble(2.5, 2.5),
+    MinEta = cms.untracked.vdouble(-2.5, -2.5),
     ParticleCharge = cms.untracked.int32(-1),
     ParticleID1 = cms.untracked.vint32(13),
     ParticleID2 = cms.untracked.vint32(13)
@@ -87,24 +84,16 @@ mumufilter = cms.EDFilter("MCParticlePairFilter",
 
 # Filter for D* -> D0(kaonPion) pionslow 
 
-
-# Test with the official filter
-
 DstarFilter = cms.EDFilter("PythiaMomDauFilter",
-    ChargeConjugation = cms.untracked.bool(True),
-    MomMinPt = cms.untracked.double(5.0), #2.0)
-    MomMaxPt = cms.untracked.double(100.0),
-    MomMinEta = cms.untracked.double(-2.4), # Dstar eta
-    MomMaxEta = cms.untracked.double(2.4),
+    ParticleID = cms.untracked.int32(413),
     DaughterID = cms.untracked.int32(421),
-    DaughterIDs = cms.untracked.vint32(421, 211),
-    DescendantsIDs = cms.untracked.vint32(-321, 211),
-    MaxEta = cms.untracked.double(2.4),
-    MinEta = cms.untracked.double(-2.4),
-    MinPt = cms.untracked.double(0.2),
+    ChargeConjugation = cms.untracked.bool(True),
+    MinEta = cms.untracked.double(-500.),
+    MaxEta = cms.untracked.double(500.),
+    DaughterIDs = cms.untracked.vint32(421,211),
     NumberDaughters = cms.untracked.int32(2),
     NumberDescendants = cms.untracked.int32(2),
-    ParticleID = cms.untracked.int32(413)
+    DescendantsIDs = cms.untracked.vint32(-321,211)
 )
 
-ProductionFilterSequence = cms.Sequence(generator*jpsifilter*mumufilter*DstarFilter)
+ProductionFilterSequence = cms.Sequence(generator*psifilter*mumufilter*DstarFilter)
