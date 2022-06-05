@@ -1,6 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from Configuration.Generator.Pythia8CommonSettings_cfi import *
-from Configuration.Generator.Pythia8CUEP8M1Settings_cfi import * # Underlying Event(UE) 
+#from Configuration.Generator.Pythia8CP5Settings_cfi import * # Underlying Event(UE) 
+from Configuration.Generator.MCTunes2017.PythiaCP5Settings_cfi import *
 from GeneratorInterface.EvtGenInterface.EvtGenSetting_cff import *
 
 generator = cms.EDFilter("Pythia8GeneratorFilter",
@@ -37,7 +38,7 @@ End
         ),
         PythiaParameters = cms.PSet(
         pythia8CommonSettingsBlock,
-        pythia8CUEP8M1SettingsBlock,
+        pythia8CP5SettingsBlock,
         processParameters = cms.vstring(
             'Main:timesAllowErrors = 10000',  
             'HardQCD:hardccbar = on', # Sum of gg -> ccbar with qqbar ->ccbar
@@ -51,7 +52,7 @@ End
             'PhaseSpace:pTHatMinDiverge = 0.5',
             ),
         parameterSets = cms.vstring('pythia8CommonSettings',
-                                    'pythia8CUEP8M1Settings',
+                                    'pythia8CP5Settings',
                                     'processParameters',
                                     )
         )
