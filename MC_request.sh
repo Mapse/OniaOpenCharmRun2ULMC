@@ -1,6 +1,7 @@
 #Get the output 
-py_gs=Jpsi_Dstar_DPS_2016posVFP_13TeV_GS_cfg.py
-REPORT_NAME=Jpsi_Dstar_DPS_2016posVFP_13TeV_GS_report.xml
+py_gs=Jpsi_100to150_Dstar_DPS_2016_13TeV_cfi.py
+# For MC Gen parameters 
+REPORT_NAME=Jpsi_100to150_Dstar_DPS_2016_13TeV_GS_report.xml
 #cmsRun -e -j $REPORT_NAME $py_gs 
 
 #Get parameters from xml output
